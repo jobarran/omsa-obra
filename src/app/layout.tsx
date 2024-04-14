@@ -1,25 +1,25 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import { inter, roboto } from "@/config/fonts";
-
+import './globals.css'
+import { roboto } from '@/config/fonts'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: "OMSA - gestion de obra",
-  description: "Sistema de gestion de obra BETA",
-};
+  title: 'OMSA - Gestion de obra',
+  description: 'Sistema de gestion',
+}
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
+
+  
+  
   return (
-    <html lang="en">
-      <body className={roboto.className}>
-
+    <html lang="es">
+      <body suppressHydrationWarning={true} className={roboto.className}>
         {children}
-
-      </body>
+        </body>
     </html>
-  );
+  )
 }

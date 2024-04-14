@@ -1,6 +1,6 @@
 
 import { RecibirTable } from "./ui/RecibirTable";
-import { RecibirBotones } from "./ui/RecibirBotones";
+import { RecibirBotones } from "./ui/RecibirButtons";
 
 
 export default function () {

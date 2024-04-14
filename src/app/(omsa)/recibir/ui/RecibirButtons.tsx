@@ -4,7 +4,7 @@ import { RecibirMontarBotonCard } from "@/components"
 import QrReader from "@/components/qr/QrReader";
 import { useQrStore } from "@/store";
 import { FaQrcode, FaUpload } from 'react-icons/fa';
-import { FaPenToSquare } from 'react-icons/fa6';
+import { FaPenToSquare, FaListUl } from 'react-icons/fa6';
 
 
 export const RecibirBotones = () => {
@@ -17,7 +17,7 @@ export const RecibirBotones = () => {
         <div>
 
             {
-                isQrScannerOpen && <QrReader/>
+                isQrScannerOpen && <QrReader />
             }
 
             <div className="flex flex-col md:flex-row justify-center items-center">
@@ -31,13 +31,19 @@ export const RecibirBotones = () => {
                 <RecibirMontarBotonCard
                     text={"Subir foto de QR"}
                     icon={<FaUpload />}
-                    action={()=>{} }
+                    action={() => { }}
+                />
+
+                <RecibirMontarBotonCard
+                    text={"Subir foto de Remito"}
+                    icon={<FaListUl  />}
+                    action={() => { }}
                 />
 
                 <RecibirMontarBotonCard
                     text={"Carga manual"}
                     icon={<FaPenToSquare />}
-                    action={()=>{} }
+                    action={() => { }}
                 />
 
             </div>

@@ -1,6 +1,7 @@
 export * from './ui/top-menu/TopMenu'
-export * from './ui/choose-obra/ChooseObra'
+export * from './ui/title/Title'
+export * from './ui/top-menu/ChangeObraModal'
 
 export * from './qr/QrReader'
 
-export * from './cards/RecibirMontarBotonCard'
+export * from './cards/RecibirMontarBottonCard'
