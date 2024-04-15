@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FaTruck } from "react-icons/fa6";
 import { FaBuilding } from "react-icons/fa6";
 
-export default function () {
+export default function MontarPage() {
 
     const [qrScannerOpen, setQrScannerOpen] = useState(false)
 

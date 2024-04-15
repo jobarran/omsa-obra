@@ -1,7 +1,7 @@
 
 import { LinkNewProject } from "./ui/LinkNewProject";
 
-export default function () {
+export default function AdminPage() {
     return (
         <div>
             <div className="flex min-h-screen flex-col items-center p-24">

@@ -30,23 +30,9 @@ const QrReader = () => {
   // Result
   const [scannedResult, setScannedResult] = useState<string | undefined>("");
 
-  // Success
-  const onScanSuccess = (result: QrScanner.ScanResult) => {
-    // ✅ Handle success.
-    setScannedResult(result?.data);
-    setScannedQr(result?.data)
-    closeQrScanner(); // Call the closeQrScanner function
-
-  };
-
-  // Fail
-  const onScanFail = (err: string | Error) => {
-    // 🖨 Print the "err" to browser console.
-    console.log(err);
-  };
-
   useEffect(() => {
-    if (videoEl?.current && !scanner.current) {
+    const videoElement = videoEl.current;
+    if (videoElement && !scanner.current) {
       // 👉 Instantiate the QR Scanner
       scanner.current = new QrScanner(videoEl?.current, onScanSuccess, {
         onDecodeError: onScanFail,
@@ -72,19 +58,35 @@ const QrReader = () => {
     // 🧹 Clean up on unmount.
     // 🚨 This removes the QR Scanner from rendering and using camera when it is closed or removed from the UI.
     return () => {
-      if (!videoEl?.current) {
-        scanner?.current?.stop();
+      if (!videoElement) {
+        scanner.current?.stop();
       }
     };
   }, []);
 
-  // ❌ If "camera" is not allowed in browser permissions, show an alert.
   useEffect(() => {
     if (!qrOn)
       alert(
         "Camera is blocked or not accessible. Please allow camera in your browser permissions and Reload."
       );
   }, [qrOn]);
+
+  // Success
+  const onScanSuccess = (result: QrScanner.ScanResult) => {
+    // ✅ Handle success.
+    setScannedResult(result?.data);
+    setScannedQr(result?.data)
+    closeQrScanner(); // Call the closeQrScanner function
+
+  };
+
+  // Fail
+  const onScanFail = (err: string | Error) => {
+    // 🖨 Print the "err" to browser console.
+    console.log(err);
+  };
+
+  // ❌ If "camera" is not allowed in browser permissions, show an alert.
 
 
   return (

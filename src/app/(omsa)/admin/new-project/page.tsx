@@ -4,7 +4,7 @@ import { getProjectShortNames } from "@/actions";
 
 
 
-export default async function () {
+export default async function NewProjectPage() {
 
     const { ok, projectShortNames } = await getProjectShortNames();
 

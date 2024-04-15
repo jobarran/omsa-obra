@@ -1,5 +1,5 @@
 
-export default function () {
+export default function AsistenciaPage() {
     return (
         <div>
             <div className="flex min-h-screen flex-col items-center justify-between p-24">

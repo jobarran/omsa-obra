@@ -3,7 +3,7 @@ import { RecibirTable } from "./ui/RecibirTable";
 import { RecibirBotones } from "./ui/RecibirButtons";
 
 
-export default function () {
+export default function RecibirPage() {
 
 
     return (

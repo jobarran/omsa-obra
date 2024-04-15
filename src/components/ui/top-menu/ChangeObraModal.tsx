@@ -58,7 +58,7 @@ export const ChangeObraModal = ({ projects, isChangeObraModalOpen, setIsChangeOb
                             {
                                 projects?.map((item: any, index: number) => (
                                     <div key={index} className="cursor-pointer py-2" onClick={() => handleChangeProject(item)}>
-                                        {item.shortName} - {item.name}
+                                        {item.code} - {item.name}
                                     </div>
                                 ))
                             }
