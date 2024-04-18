@@ -12,19 +12,19 @@ interface Props {
 //TODO: Agregar modal Carga manual
 //TODO: Traducir todo a ingles
 
-export const RecibirMontarBotonCard = ({ text, icon, action }: Props) => {
+export const ButtonCard = ({ text, icon, action }: Props) => {
 
     return (
-        <div className='p-4'>
+        <div className='p-2'>
             <a
                 href="#"
                 onClick={action}
-                className="block w-40 h-40 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100"
+                className="block w-20 h-20 p-1 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100"
             >
-                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
+                <h5 className="text-base font-semibold tracking-tight text-gray-900">
                     {text}
                 </h5>
-                <p className="font-normal text-2xl text-gray-700">
+                <p className="font-normal text-lg text-gray-700">
                     {icon}
                 </p>
             </a>
