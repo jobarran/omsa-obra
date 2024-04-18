@@ -19,14 +19,14 @@ export const ButtonCard = ({ text, icon, action }: Props) => {
             <a
                 href="#"
                 onClick={action}
-                className="block w-20 h-20 p-1 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100"
+                className="block w-20 h-20 p-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100"
             >
-                <h5 className="text-base font-semibold tracking-tight text-gray-900">
-                    {text}
-                </h5>
-                <p className="font-normal text-lg text-gray-700">
+                <p className="font-normal text-base text-gray-700">
                     {icon}
                 </p>
+                <h5 className="mt-2 text-sm font-medium tracking-tight text-gray-900">
+                    {text}
+                </h5>
             </a>
         </div>
     )

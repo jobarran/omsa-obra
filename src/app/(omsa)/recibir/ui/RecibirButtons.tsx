@@ -20,7 +20,7 @@ export const RecibirBotones = () => {
                 isQrScannerOpen && <QrReader />
             }
 
-            <div className="flex flex-row md:flex-row justify-center items-center">
+            <div className="flex flex-row justify-center items-center">
 
                 <ButtonCard
                     text={"Escanear QR"}
