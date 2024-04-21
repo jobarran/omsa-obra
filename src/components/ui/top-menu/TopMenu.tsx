@@ -12,6 +12,7 @@ import { FaExchangeAlt } from "react-icons/fa";
 import { useUiStore } from "@/store";
 import { ChangeObraModal } from "./ChangeObraModal";
 import { TopMenuIcon } from "./TopMenuIcon";
+import { FaTasks } from "react-icons/fa";
 
 
 interface Props {
@@ -22,12 +23,12 @@ interface Props {
 export const TopMenu = ({ user, projects }: Props) => {
 
   const activeProject = useUiStore(state => state.activeProject)
-
   const [isChangeObraModalOpen, setIsChangeObraModalOpen] = useState(false)
+
 
   return (
 
-    <nav className="bg-white shadow-md">
+    <nav className="bg-white border-b-2 border-b-gray-200">
 
       <ChangeObraModal
         projects={projects}
@@ -43,8 +44,8 @@ export const TopMenu = ({ user, projects }: Props) => {
             <h1 className="text-xl font-bold">OMSA</h1>
           </a>
           <h1 className="text-xl p-2 font-bold">-</h1>
-          <p className="hidden md:inline text-md">{activeProject?.name}</p>
-          <p className="md:hidden text-md">{activeProject?.shortName}</p>
+          <p className="hidden lg:inline text-md">{activeProject?.name}</p>
+          <p className="lg:hidden text-md">{activeProject?.shortName}</p>
           <Link
             href=""
             className="pl-2"
@@ -69,7 +70,7 @@ export const TopMenu = ({ user, projects }: Props) => {
           <TopMenuIcon
             link={"/montar"}
             icon={<FaBuilding />}
-            text={"Recibir"}
+            text={"Montar"}
           />
 
           <TopMenuIcon
@@ -78,12 +79,18 @@ export const TopMenu = ({ user, projects }: Props) => {
             text={"Asistencia"}
           />
 
+          <TopMenuIcon
+            link={"/asistencia"}
+            icon={<FaTasks />}
+            text={"Tareas"}
+          />
+
         </div>
 
         {/* Right Side - User Name & Avatar */}
         <div className="flex items-center space-x-2">
           {/* User Name */}
-          <span className="hidden md:inline text-sm">{user.name} {user.lastName}</span>
+          <span className="hidden lg:inline text-sm">{user.name} {user.lastName}</span>
           {/* User Avatar */}
           <Avatar
             initials={user.name[0]! + user.lastName[0]! || ''}
