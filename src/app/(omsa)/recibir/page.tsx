@@ -8,7 +8,7 @@ export default function RecibirPage() {
 
     return (
 
-        <div className="min-h-screen flex flex-col items-center justify-start px-6">
+        <div className="flex flex-col items-center justify-start px-6">
             
             <RecibirBotones />
             <RecibirTable />

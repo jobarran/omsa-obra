@@ -21,7 +21,7 @@ export default async function OmsaLayout({
 
             <TopMenu user={session.user} projects={projects} />
 
-            <div className="flex flex-col items-center justify-center min-h-screen">
+            <div className="flex flex-col items-center justify-center">
                 <div className="container px-4 py-4">
                     <div className="max-w-4xl w-full mx-auto">
 

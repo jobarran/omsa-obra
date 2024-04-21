@@ -9,7 +9,7 @@ export default function MontarPage() {
     const [qrScannerOpen, setQrScannerOpen] = useState(false)
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-start px-6">
+        <div className="flex flex-col items-center justify-start px-6">
             <div className="flex flex-col md:flex-row justify-center items-center">
                 <a
                     href="#"

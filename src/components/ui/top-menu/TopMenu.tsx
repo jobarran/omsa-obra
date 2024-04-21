@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { FaExchangeAlt } from "react-icons/fa";
 import { useUiStore } from "@/store";
 import { ChangeObraModal } from "./ChangeObraModal";
+import { TopMenuIcon } from "./TopMenuIcon";
 
 
 interface Props {
@@ -23,20 +24,6 @@ export const TopMenu = ({ user, projects }: Props) => {
   const activeProject = useUiStore(state => state.activeProject)
 
   const [isChangeObraModalOpen, setIsChangeObraModalOpen] = useState(false)
-  const [selectedProject, setSelectedProject] = useState('');
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 768); // Adjust the breakpoint as needed
-    };
-    handleResize(); // Initial check
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
 
   return (
 
@@ -73,41 +60,23 @@ export const TopMenu = ({ user, projects }: Props) => {
 
           {/* Icons */}
 
-          <Link
-            href="/recibir"
-            className="relative group"
-            onClick={() => { }}
-          >
-            <FaTruck className="w-5 h-5 transition duration-75 text-gray-400 group-hover:text-sky-600  " />
-            <span
-              className="absolute left-1/2 transform -translate-x-1/2 top-10 text-xs text-gray-600 opacity-0 transition duration-200 group-hover:opacity-100 bg-gray-200 rounded px-2 py-1 whitespace-nowrap"            >
-              Recibir Modulos
-            </span>
-          </Link>
+          <TopMenuIcon
+            link={"/recibir"}
+            icon={<FaTruck />}
+            text={"Recibir"}
+          />
 
-          <Link
-            href="/montar"
-            className="relative group"
-            onClick={() => { }}
-          >
-            <FaBuilding className="w-5 h-5 transition duration-75 text-gray-400 group-hover:text-sky-600  " />
-            <span
-              className="absolute left-1/2 transform -translate-x-1/2 top-10 text-xs text-gray-600 opacity-0 transition duration-200 group-hover:opacity-100 bg-gray-200 rounded px-2 py-1 whitespace-nowrap"            >
-              Montar Modulos
-            </span>
-          </Link>
+          <TopMenuIcon
+            link={"/montar"}
+            icon={<FaBuilding />}
+            text={"Recibir"}
+          />
 
-          <Link
-            href="/asistencia"
-            className="relative group"
-            onClick={() => { }}
-          >
-            <IoPeople className="w-5 h-5 transition duration-75 text-gray-400 group-hover:text-sky-600  " />
-            <span
-              className="absolute left-1/2 transform -translate-x-1/2 top-10 text-xs text-gray-600 opacity-0 transition duration-200 group-hover:opacity-100 bg-gray-200 rounded px-2 py-1 whitespace-nowrap"            >
-              Asistencia
-            </span>
-          </Link>
+          <TopMenuIcon
+            link={"/asistencia"}
+            icon={<IoPeople />}
+            text={"Asistencia"}
+          />
 
         </div>
 
