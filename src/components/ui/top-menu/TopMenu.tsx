@@ -13,6 +13,7 @@ import { useUiStore } from "@/store";
 import { ChangeObraModal } from "./ChangeObraModal";
 import { TopMenuIcon } from "./TopMenuIcon";
 import { FaTasks } from "react-icons/fa";
+import { usePathname } from "next/navigation";
 
 
 interface Props {
@@ -20,10 +21,18 @@ interface Props {
   projects: Project[]
 }
 
+const MENU_ITEMS = [
+  { href: "/recibir", label: "Recibir", icon: <FaTruck /> },
+  { href: "/montar", label: "Montar", icon: <FaBuilding /> },
+  { href: "/asistencia", label: "Asistencia", icon: <IoPeople /> },
+  { href: "/tareas", label: "Tareas", icon: <FaTasks /> },
+];
+
 export const TopMenu = ({ user, projects }: Props) => {
 
   const activeProject = useUiStore(state => state.activeProject)
   const [isChangeObraModalOpen, setIsChangeObraModalOpen] = useState(false)
+  const pathname = usePathname();
 
 
   return (
@@ -45,13 +54,18 @@ export const TopMenu = ({ user, projects }: Props) => {
           </a>
           <h1 className="text-xl p-2 font-bold">-</h1>
           <p className="hidden lg:inline text-md">{activeProject?.name}</p>
-          <p className="lg:hidden text-md">{activeProject?.shortName}</p>
+          <p
+            className="lg:hidden text-md underline cursor-pointer"
+            onClick={() => setIsChangeObraModalOpen(!isChangeObraModalOpen)}
+          >
+            {activeProject?.shortName}
+          </p>
           <Link
             href=""
             className="pl-2"
             onClick={() => setIsChangeObraModalOpen(!isChangeObraModalOpen)}
           >
-            <FaExchangeAlt className="w-4 h-4 transition duration-75 text-gray-400 group-hover:text-sky-600" />
+            <FaExchangeAlt className="hidden lg:inline w-4 h-4 transition duration-75 text-gray-400 group-hover:text-sky-600" />
           </Link>
 
         </div>
@@ -59,15 +73,23 @@ export const TopMenu = ({ user, projects }: Props) => {
         {/* Center - Icons */}
         <div className="flex justify-center items-center space-x-4">
 
-          {/* Icons */}
+          {MENU_ITEMS.map(({ href, label, icon }) => {
+            const isActive = pathname === href;
 
-          <TopMenuIcon
-            link={"/recibir"}
-            icon={<FaTruck />}
-            text={"Recibir"}
-          />
+            return (
 
-          <TopMenuIcon
+              <TopMenuIcon
+                key={href}
+                link={href}
+                icon={icon}
+                text={label}
+                isActive={isActive}
+              />
+
+            );
+          })}
+
+          {/* <TopMenuIcon
             link={"/montar"}
             icon={<FaBuilding />}
             text={"Montar"}
@@ -83,7 +105,7 @@ export const TopMenu = ({ user, projects }: Props) => {
             link={"/asistencia"}
             icon={<FaTasks />}
             text={"Tareas"}
-          />
+          /> */}
 
         </div>
 
