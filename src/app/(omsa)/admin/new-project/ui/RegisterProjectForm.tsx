@@ -6,15 +6,9 @@ import { createProject } from "@/actions";
 import { useEffect, useState } from "react";
 
 type FormInputs = {
+    code: string;
     name: string;
     shortName: string;
-}
-
-type User = {
-    id: string,
-    name: string,
-    lastName: string,
-    role: string
 }
 
 interface Props {
@@ -50,6 +44,27 @@ export const RegisterProjectForm = ({projectShortNames}:Props) => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
 
+            <div>
+                <label htmlFor="code" className="block mb-2 text-sm font-medium text-gray-900">Code</label>
+                <input
+                    type="text"
+                    id="code"
+                    placeholder="1234"
+                    maxLength={4}
+                    className={
+                        clsx(
+                            "bg-gray-50 border text-gray-900 sm:text-sm rounded-lg block w-full h-10 p-2.5",
+                            {
+                                'focus:outline-none focus:border-2 border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500': !!errors.name
+                            }
+                        )
+                    }
+                    {...register('code', {
+                        required: true,
+                    })
+                    }
+                />
+            </div>
             <div>
                 <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">Project Name</label>
                 <input

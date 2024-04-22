@@ -26,7 +26,7 @@ export const ChangeObraModal = ({ projects, isChangeObraModalOpen, setIsChangeOb
     };
 
     const modalClasses = `fixed inset-0 flex justify-center items-center bg-opacity-50 z-50 transition-opacity duration-300 ${isChangeObraModalOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`;
-    const modalContentClasses = `bg-white rounded-lg overflow-hidden h-3/6 md:h-3/6 w-full w-5/6 sm:max-w-sm xl:max-w-lg transition-opacity duration-300 ${isChangeObraModalOpen ? 'opacity-100' : 'opacity-0'}`;
+    const modalContentClasses = `bg-white rounded-lg overflow-hidden h-3/6 md:h-3/6 w-full max-w-xs md:max-w-sm xl:max-w-lg transition-opacity duration-300 ${isChangeObraModalOpen ? 'opacity-100' : 'opacity-0'}`;
     const blurEffectClasses = `fixed inset-0 bg-black bg-opacity-30 z-40 transition-opacity duration-300 ${isChangeObraModalOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`;
 
 
