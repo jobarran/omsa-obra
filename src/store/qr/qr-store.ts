@@ -9,10 +9,10 @@ interface State {
     closeQrScanner: () => void;
     scannedQr: string[] | null
     setScannedQr: (qr: string) => void,
+    deleteScannedQr: (qr: string) => void
+    editScannedQr: (oldQr:string, newQr:string) => void
     emptyScannedQr: () => void
-
 }
-
 
 export const useQrStore = create<State>((set) => ({
     isQrScannerOpen: false,
@@ -23,5 +23,27 @@ export const useQrStore = create<State>((set) => ({
         set((state) => ({
             scannedQr: Array.isArray(state.scannedQr) ? [...state.scannedQr, qr] : [qr],
         })),
+    deleteScannedQr: (qr) =>
+        set((state) => {
+            if (Array.isArray(state.scannedQr)) {
+                return {
+                    scannedQr: state.scannedQr.filter((item) => item !== qr),
+                };
+            }
+            return state;
+        }),
+    editScannedQr: (oldQr, newQr) =>
+        set((state) => {
+            if (Array.isArray(state.scannedQr)) {
+                const updatedScannedQr = state.scannedQr.map((item) => {
+                    if (item === oldQr) {
+                        return newQr; // Update the edited QR code
+                    }
+                    return item;
+                });
+                return { scannedQr: updatedScannedQr };
+            }
+            return state;
+        }),
     emptyScannedQr: () => set({ scannedQr: [] })
 }));

@@ -8,3 +8,8 @@ export * from './ui/top-menu/TopMenuIcon'
 
 export * from './qr/QrReader'
 
+export * from './recibir/DatePicker'
+export * from './recibir/EmptyTable'
+export * from './recibir/SaveButton'
+export * from './recibir/RecibirTableBody'
+
