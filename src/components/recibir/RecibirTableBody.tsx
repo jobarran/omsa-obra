@@ -13,15 +13,15 @@ export const RecibirTableBody = () => {
       }
 
     return (
-        <div className="py-2 overflow-hidden rounded-lg border border-gray-200">
-            <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
+        <div className="py-2 w-full overflow-hidden rounded-lg border border-gray-200">
+            <table className="border-collapse bg-white text-left text-sm text-gray-500 w-full">
                 <thead className="text-md text-uppercase table-header-group">
                     <tr>
-                        <th className="px-6 py-4 font-medium text-gray-900">Obra</th>
-                        <th className="px-6 py-4 font-medium text-gray-900">Tipo</th>
+                        <th className="px-4 py-4 font-medium text-gray-900">Obra</th>
+                        <th className="px-6 py-4 font-medium text-gray-900 sm:w-1/6 md:w-1/4 lg:w-1/3">Tipo</th>
                         <th className="px-6 py-4 font-medium text-gray-900">Código</th>
-                        <th className="px-6 py-4 font-medium text-gray-900">ID</th>
-                        <th className="px-6 py-4 font-medium text-gray-900">Quitar</th>
+                        <th className="px-4 py-4 font-medium text-gray-900">ID</th>
+                        <th className="px-6 py-4 font-medium text-gray-900">Editar</th>
                     </tr>
                 </thead>
 

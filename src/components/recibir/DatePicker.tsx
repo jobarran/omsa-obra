@@ -20,7 +20,7 @@ export const DatePicker = ({value, setValue}: Props) => {
 
   // Rendering the Datepicker component with some configurations
   return (
-    <div className="py-2">
+    <div className="py-2 w-full">
       <Datepicker
         asSingle={true}
         useRange={false} // Indicates whether to use a range of dates or single date selection
