@@ -23,6 +23,10 @@ const QrReader = () => {
 
   const closeQrScanner = useQrStore(state => state.closeQrScanner)
   const setScannedQr = useQrStore(state => state.setScannedQr)
+  const scannedQr = useQrStore(state => state.scannedQr)
+  const isScannedQrRepeated = useQrStore(state => state.isScannedQrRepeated)
+  const setScannedQrRepeated = useQrStore(state => state.setScannedQrRepeated)
+
 
   const isLargeScreen = window.innerWidth >= 1024;
 
@@ -73,11 +77,20 @@ const QrReader = () => {
 
   // Success
   const onScanSuccess = (result: QrScanner.ScanResult) => {
-    // ✅ Handle success.
-    setScannedResult(result?.data);
-    setScannedQr(result?.data)
-    closeQrScanner(); // Call the closeQrScanner function
-
+    // Check if result.data exists in scannedQr array before setting it
+    if (result?.data) {
+      if (scannedQr?.includes(result.data)) {
+        // If result.data already exists in scannedQr array
+        setScannedResult(result.data);
+        setScannedQrRepeated(); // Call setScannedQrRepeated
+        closeQrScanner(); // Call the closeQrScanner function
+      } else {
+        // If result.data is not in scannedQr array
+        setScannedResult(result.data);
+        setScannedQr(result.data);
+        closeQrScanner(); // Call the closeQrScanner function
+      }
+    }
   };
 
   // Fail
@@ -91,7 +104,7 @@ const QrReader = () => {
 
   return (
 
-    <div className={`qr-reader`}>
+    <div className={`qr-reader`} style={{ zIndex: '2' }}>
 
       {/* Close button */}
       <button className="close-button text-white text-3xl" onClick={closeQrScanner}>

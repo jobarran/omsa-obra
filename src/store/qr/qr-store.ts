@@ -4,14 +4,16 @@ import QrScanner from 'qr-scanner';
 
 interface State {
 
-    isQrScannerOpen: boolean;
-    openQrScanner: () => void;
-    closeQrScanner: () => void;
+    isQrScannerOpen: boolean
+    openQrScanner: () => void
+    closeQrScanner: () => void
     scannedQr: string[] | null
-    setScannedQr: (qr: string) => void,
+    setScannedQr: (qr: string) => void
     deleteScannedQr: (qr: string) => void
-    editScannedQr: (oldQr:string, newQr:string) => void
+    editScannedQr: (oldQr: string, newQr: string) => void
     emptyScannedQr: () => void
+    isScannedQrRepeated: boolean
+    setScannedQrRepeated: () => void
 }
 
 export const useQrStore = create<State>((set) => ({
@@ -45,5 +47,12 @@ export const useQrStore = create<State>((set) => ({
             }
             return state;
         }),
-    emptyScannedQr: () => set({ scannedQr: [] })
+    emptyScannedQr: () => set({ scannedQr: [] }),
+    isScannedQrRepeated: false,
+    setScannedQrRepeated: () => {
+        set({ isScannedQrRepeated: true });
+        setTimeout(() => {
+            set({ isScannedQrRepeated: false });
+        }, 4000); 
+    },
 }));

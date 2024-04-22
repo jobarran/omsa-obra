@@ -3,15 +3,17 @@
 import { useQrStore } from "@/store"
 import { MdDelete } from "react-icons/md";
 import { useEffect, useState } from 'react';
-import { DatePicker, EmptyTable, RecibirTableBody, SaveButton } from "@/components";
-import { getTodayDate } from "@/utils";
+import { CodeRepeatedError, DatePicker, EmptyTable, RecibirTableBody, SaveButton } from "@/components";
+import { getTodayDate, qrToRecibir } from "@/utils";
+import { createMaterials } from "@/actions";
 
 
 
 export const RecibirTable = () => {
 
-  const scannedQr = useQrStore(state => state.scannedQr)
+  const isScannedQrRepeated = useQrStore(state => state.isScannedQrRepeated)
   const emptyScannedQr = useQrStore(state => state.emptyScannedQr)
+  const scannedQr = useQrStore(state => state.scannedQr)
 
   useEffect(() => {
     emptyScannedQr()
@@ -22,16 +24,37 @@ export const RecibirTable = () => {
     endDate: getTodayDate()
   });
 
+  const handleSaveMaterials = async () => {
+
+    //TODO: validar duplicados antes de guardar
+
+    if (scannedQr) {
+        const materials = qrToRecibir(scannedQr, value.startDate);
+        console.log(materials);
+        await createMaterials(materials); // Wait for createMaterials to finish
+    }
+};
+
   return (
 
     <div className="flex flex-col justify-center items-center">
+
       <DatePicker
         value={value}
         setValue={setValue}
       />
+
+      {
+        isScannedQrRepeated && <CodeRepeatedError />
+      }
+
       <RecibirTableBody />
-      <SaveButton />
-      <EmptyTable />
+
+      <div className="flex w-full mt-2">
+        <SaveButton handleSaveMaterials={() => handleSaveMaterials()} />
+        <EmptyTable />
+      </div>
+
     </div>
   )
 }

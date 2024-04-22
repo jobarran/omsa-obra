@@ -1,7 +1,19 @@
+import { useQrStore } from '@/store'
 import React from 'react'
 
 export const EmptyTable = () => {
+
+  const emptyScannedQr = useQrStore(state => state.emptyScannedQr)
+
+
   return (
-    <div>EmptyTable</div>
+    
+    <button
+    onClick={emptyScannedQr}
+      type="button"
+      className="flex-1 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 mb-2"
+    >
+      Borrar todos
+    </button>
   )
 }
