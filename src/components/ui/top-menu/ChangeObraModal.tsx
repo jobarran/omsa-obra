@@ -1,7 +1,7 @@
 'use client';
 
+import { Project } from "@/interfaces";
 import { useUiStore } from "@/store"
-import { Project } from "@prisma/client"
 
 interface Props {
     projects: Project[],
