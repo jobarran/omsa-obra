@@ -30,8 +30,8 @@ export const RecibirTable = () => {
 
     if (scannedQr) {
         const materials = qrToRecibir(scannedQr, value.startDate);
-        console.log(materials);
-        await createMaterials(materials); // Wait for createMaterials to finish
+        await createMaterials(materials)
+        emptyScannedQr()
     }
 };
 

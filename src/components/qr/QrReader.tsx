@@ -11,7 +11,6 @@ import "./QrStyles.css";
 
 // Qr Scanner
 import QrScanner from "qr-scanner";
-import QrFrame from "../../assets/qr-frame.svg";
 import { useQrStore } from "@/store";
 
 const QrReader = () => {
@@ -24,12 +23,11 @@ const QrReader = () => {
   const closeQrScanner = useQrStore(state => state.closeQrScanner)
   const setScannedQr = useQrStore(state => state.setScannedQr)
   const scannedQr = useQrStore(state => state.scannedQr)
-  const isScannedQrRepeated = useQrStore(state => state.isScannedQrRepeated)
   const setScannedQrRepeated = useQrStore(state => state.setScannedQrRepeated)
+  const isQrScannerOpen = useQrStore(state => state.isQrScannerOpen)
 
 
   const isLargeScreen = window.innerWidth >= 1024;
-
 
   // Result
   const [scannedResult, setScannedResult] = useState<string | undefined>("");
@@ -57,6 +55,7 @@ const QrReader = () => {
         .catch((err) => {
           if (err) setQrOn(false);
         });
+        
     }
 
     // 🧹 Clean up on unmount.
@@ -84,11 +83,13 @@ const QrReader = () => {
         setScannedResult(result.data);
         setScannedQrRepeated(); // Call setScannedQrRepeated
         closeQrScanner(); // Call the closeQrScanner function
+        scanner.current?.stop();
       } else {
         // If result.data is not in scannedQr array
         setScannedResult(result.data);
         setScannedQr(result.data);
         closeQrScanner(); // Call the closeQrScanner function
+        scanner.current?.stop();
       }
     }
   };
@@ -99,6 +100,11 @@ const QrReader = () => {
     console.log(err);
   };
 
+  const handleCloseScanner = () => {
+    closeQrScanner()
+    scanner.current?.stop();
+  }
+
   // ❌ If "camera" is not allowed in browser permissions, show an alert.
 
 
@@ -107,7 +113,7 @@ const QrReader = () => {
     <div className={`qr-reader`} style={{ zIndex: '2' }}>
 
       {/* Close button */}
-      <button className="close-button text-white text-3xl" onClick={closeQrScanner}>
+      <button className="close-button text-white text-3xl" onClick={handleCloseScanner}>
         <FaWindowClose />
       </button>
 
