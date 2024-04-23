@@ -26,7 +26,7 @@ export const RecibirTable = () => {
 
   const handleSaveMaterials = async () => {
 
-    //TODO: validar duplicados antes de guardar
+    //TODO: validar dusplicados antes de guardar
 
     if (scannedQr) {
         const materials = qrToRecibir(scannedQr, value.startDate);
