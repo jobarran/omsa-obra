@@ -15,7 +15,7 @@ interface Props {
 export const ButtonCard = ({ text, icon, action }: Props) => {
 
     return (
-        <div className='p-2'>
+        // <div className=''>
             <a
                 href="#"
                 onClick={action}
@@ -28,6 +28,6 @@ export const ButtonCard = ({ text, icon, action }: Props) => {
                     {text}
                 </h5>
             </a>
-        </div>
+        // </div>
     )
 }

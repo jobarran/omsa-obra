@@ -12,8 +12,8 @@ export const RecibirTableBody = () => {
     }
 
     return (
-        <div className="py-2 w-full overflow-hidden rounded-lg border border-gray-200">
-            <table className="border-collapse bg-white text-left text-sm text-gray-500 w-full">
+        <div className="py-2 w-full overflow-hidden rounded-lg bg-white border border-gray-200">
+            <table className="border-collapse text-left text-sm text-gray-500 w-full">
                 <thead className="text-md text-uppercase table-header-group">
                     <tr>
                         <th className="px-4 py-4 font-semibold text-gray-900 text-center">Obra</th>

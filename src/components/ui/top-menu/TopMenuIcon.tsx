@@ -22,7 +22,7 @@ export const TopMenuIcon = ({ link, icon, text, isActive }: Props) => {
             >
                 <div className="text-2xl">{icon}</div>
                 <p className="hidden lg:inline text-sm">{text}</p>
-                <div className={`${isActive ? "bg-black w-full h-px mt-1" : "hidden"}`}></div>
+                {/* <div className={`${isActive ? "bg-black w-full h-px mt-1" : "hidden"}`}></div> */}
 
             </div>
         </Link>

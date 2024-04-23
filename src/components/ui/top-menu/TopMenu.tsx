@@ -3,17 +3,18 @@
 
 import Link from "next/link";
 import { IoPeople } from "react-icons/io5";
-import { FaTruck, FaBuilding } from 'react-icons/fa6';
 import { Avatar } from "./Avatar";
 import { logout } from "@/actions";
 import { Project, User } from "@/interfaces";
 import { useEffect, useState } from "react";
-import { FaExchangeAlt } from "react-icons/fa";
 import { useUiStore } from "@/store";
 import { ChangeObraModal } from "./ChangeObraModal";
 import { TopMenuIcon } from "./TopMenuIcon";
-import { FaTasks } from "react-icons/fa";
 import { usePathname } from "next/navigation";
+import { FaTruck, FaBuilding } from 'react-icons/fa6';
+import { FaExchangeAlt } from "react-icons/fa";
+import { FaTasks } from "react-icons/fa";
+import { FaBuildingCircleCheck } from "react-icons/fa6";
 
 
 interface Props {
@@ -23,7 +24,7 @@ interface Props {
 
 const MENU_ITEMS = [
   { href: "/recibir", label: "Recibir", icon: <FaTruck /> },
-  { href: "/montar", label: "Montar", icon: <FaBuilding /> },
+  { href: "/montar", label: "Montar", icon: <FaBuildingCircleCheck /> },
   { href: "/asistencia", label: "Asistencia", icon: <IoPeople /> },
   { href: "/tareas", label: "Tareas", icon: <FaTasks /> },
 ];
@@ -88,24 +89,6 @@ export const TopMenu = ({ user, projects }: Props) => {
 
             );
           })}
-
-          {/* <TopMenuIcon
-            link={"/montar"}
-            icon={<FaBuilding />}
-            text={"Montar"}
-          />
-
-          <TopMenuIcon
-            link={"/asistencia"}
-            icon={<IoPeople />}
-            text={"Asistencia"}
-          />
-
-          <TopMenuIcon
-            link={"/asistencia"}
-            icon={<FaTasks />}
-            text={"Tareas"}
-          /> */}
 
         </div>
 

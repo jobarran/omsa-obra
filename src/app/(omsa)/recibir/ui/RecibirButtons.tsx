@@ -19,33 +19,34 @@ export const RecibirBotones = () => {
             {
                 isQrScannerOpen && <QrReader />
             }
+            <div className="w-full">
+                <div className="flex justify-between">
 
-            <div className="flex flex-row justify-center items-center">
+                    <ButtonCard
+                        text={"Escanear QR"}
+                        icon={<FaQrcode />}
+                        action={openQrScanner}
+                    />
 
-                <ButtonCard
-                    text={"Escanear QR"}
-                    icon={<FaQrcode />}
-                    action={openQrScanner}
-                />
+                    <ButtonCard
+                        text={"Subir foto de QR"}
+                        icon={<FaUpload />}
+                        action={() => { }}
+                    />
 
-                <ButtonCard
-                    text={"Subir foto de QR"}
-                    icon={<FaUpload />}
-                    action={() => { }}
-                />
+                    <ButtonCard
+                        text={"Subir foto de Remito"}
+                        icon={<FaListUl />}
+                        action={() => { }}
+                    />
 
-                <ButtonCard
-                    text={"Subir foto de Remito"}
-                    icon={<FaListUl  />}
-                    action={() => { }}
-                />
+                    <ButtonCard
+                        text={"Carga manual"}
+                        icon={<FaPenToSquare />}
+                        action={() => { }}
+                    />
 
-                <ButtonCard
-                    text={"Carga manual"}
-                    icon={<FaPenToSquare />}
-                    action={() => { }}
-                />
-
+                </div>
             </div>
 
         </div>

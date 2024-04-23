@@ -8,7 +8,7 @@ export default function RecibirPage() {
 
     return (
 
-        <div className="flex flex-col items-center justify-start px-6">
+        <div className="flex flex-col justify-start mx-auto max-w-md">
             
             <RecibirBotones />
             <RecibirTable />
