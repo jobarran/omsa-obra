@@ -14,7 +14,7 @@ export const RecibirBotones = () => {
 
     return (
 
-        <div>
+        <div className="-mx-1">
 
             {
                 isQrScannerOpen && <QrReader />
