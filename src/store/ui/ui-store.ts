@@ -11,15 +11,6 @@ interface State {
 
 }
 
-
-// export const useUiStore = create<State>()((set) => ({
-
-//     activeProject: null,
-//     setProject: (project) => set({ activeProject: project }),
-//     unSetProject: () => set({ activeProject: null }),
-
-// }))
-
 export const useUiStore = create<State>()(
 
     persist(

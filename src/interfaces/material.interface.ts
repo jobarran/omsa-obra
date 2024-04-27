@@ -8,6 +8,7 @@ export interface Material {
     projectId: string
     received: string
     installed: string | null
+    description: string | null
 }
 
 

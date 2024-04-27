@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import QrScanner from 'qr-scanner';
 
 
 interface State {
@@ -14,6 +13,7 @@ interface State {
     emptyScannedQr: () => void
     isScannedQrRepeated: boolean
     setScannedQrRepeated: () => void
+
 }
 
 export const useQrStore = create<State>((set) => ({
@@ -55,4 +55,5 @@ export const useQrStore = create<State>((set) => ({
             set({ isScannedQrRepeated: false });
         }, 4000); 
     },
+
 }));
