@@ -6,7 +6,7 @@ export interface Material {
     quantity: string;
     status: MaterialStatus;
     projectId: string
-    received: string
+    received: string | null
     installed: string | null
     description: string | null
 }

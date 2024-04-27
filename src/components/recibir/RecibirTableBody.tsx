@@ -1,17 +1,19 @@
-import { useQrStore } from '@/store';
+import { useMaterialStore, useQrStore } from '@/store';
 import { qrTableData } from '@/utils';
 import React from 'react'
 import { MdDelete } from 'react-icons/md';
 
-export const RecibirTableBody = () => {
+interface Props {
+    duplicatedCodes: string[]
+}
 
-    const scannedQr = useQrStore(state => state.scannedQr)
-    const deleteScannedQr = useQrStore(state => state.deleteScannedQr)
+export const RecibirTableBody = ({ duplicatedCodes }: Props) => {
 
-    const data = qrTableData(scannedQr)
+    const storeMaterial = useMaterialStore(state => state.storeMaterial)
+    const deleteStoreMaterial = useMaterialStore(state => state.deleteStoreMaterial)
 
-    const handleRemoveQr = (qr: string) => {
-        deleteScannedQr(qr)
+    const handleRemoveQr = (materialCode: string) => {
+        deleteStoreMaterial(materialCode)
     }
 
     return (
@@ -26,29 +28,29 @@ export const RecibirTableBody = () => {
                         <th className="px-2 py-4 font-semibold text-gray-900 text-center">Editar</th>
                     </tr>
                 </thead>
-                    {data.length === 0 ? (
-                        <tbody>
-                            <tr>
-                                <td colSpan={5} className="py-4 text-center text-gray-500">No hay materiales cargados</td>
+                {storeMaterial?.length === 0 ? (
+                    <tbody>
+                        <tr>
+                            <td colSpan={5} className="py-4 text-center text-gray-500">No hay materiales cargados</td>
+                        </tr>
+                    </tbody>
+                ) : (
+                    <tbody className="divide-y divide-gray-100 border-t border-gray-100">
+                        {storeMaterial?.map((item) => (
+                            <tr key={item.code} className={duplicatedCodes?.includes(item.code) ? "bg-red-200" : "hover:bg-gray-50"}>
+                                <td className="pl-6 pr-2 py-4 font-medium text-gray-900 text-center">{item.projectId}</td>
+                                <td className="px-2 py-4 text-center">{item.type}</td>
+                                <td className="px-2 py-4 text-center">{item.name}</td>
+                                <td className="px-2 py-4 text-center">{item.code}</td>
+                                <td className="pl-2 pr-6 py-4 text-center">
+                                    <div className="flex justify-end gap-3 text-lg">
+                                        <MdDelete onClick={() => handleRemoveQr(item.code)} className="text-red-600 cursor-pointer" />
+                                    </div>
+                                </td>
                             </tr>
-                        </tbody>
-                    ) : (
-                        <tbody className="divide-y divide-gray-100 border-t border-gray-100">
-                            {data.map((item) => (
-                                <tr key={item.id} className="hover:bg-gray-50">
-                                    <td className="pl-6 pr-2 py-4 font-medium text-gray-900 text-center">{item.obra}</td>
-                                    <td className="px-2 py-4 text-center">{item.tipo}</td>
-                                    <td className="px-2 py-4 text-center">{item.nombre}</td>
-                                    <td className="px-2 py-4 text-center">{item.id}</td>
-                                    <td className="pl-2 pr-6 py-4 text-center">
-                                        <div className="flex justify-end gap-3 text-lg">
-                                            <MdDelete onClick={() => handleRemoveQr(item.id)} className="text-red-600 cursor-pointer" />
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    )}
+                        ))}
+                    </tbody>
+                )}
 
             </table>
         </div>

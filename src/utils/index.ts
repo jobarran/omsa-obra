@@ -1,3 +1,5 @@
 export * from './getTodayDate'
 export * from './qrToRecibir'
 export * from './qrTableData'
+export * from './qrScannerToObject'
+export * from './materialTypes'

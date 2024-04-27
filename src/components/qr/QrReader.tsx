@@ -11,7 +11,8 @@ import "./QrStyles.css";
 
 // Qr Scanner
 import QrScanner from "qr-scanner";
-import { useQrStore } from "@/store";
+import { useMaterialStore, useQrStore } from "@/store";
+import { qrScannerToObject } from "@/utils";
 
 const QrReader = () => {
   // QR States
@@ -19,6 +20,7 @@ const QrReader = () => {
   const videoEl = useRef<HTMLVideoElement>(null);
   const qrBoxEl = useRef<HTMLDivElement>(null);
   const [qrOn, setQrOn] = useState<boolean>(true);
+  const [showGuide, setShowGuide] = useState<boolean>(false); // Control the visibility of the guide
 
   const closeQrScanner = useQrStore(state => state.closeQrScanner)
   const setScannedQr = useQrStore(state => state.setScannedQr)
@@ -26,11 +28,11 @@ const QrReader = () => {
   const setScannedQrRepeated = useQrStore(state => state.setScannedQrRepeated)
   const isQrScannerOpen = useQrStore(state => state.isQrScannerOpen)
 
+  const storeMaterial = useMaterialStore(state => state.storeMaterial)
+  const setStoreMaterial = useMaterialStore(state => state.setStoreMaterial)
+
 
   const isLargeScreen = window.innerWidth >= 1024;
-
-  // Result
-  const [scannedResult, setScannedResult] = useState<string | undefined>("");
 
   useEffect(() => {
     const videoElement = videoEl.current;
@@ -51,11 +53,15 @@ const QrReader = () => {
       // 🚀 Start QR Scanner
       scanner?.current
         ?.start()
-        .then(() => setQrOn(true))
+        .then(() => {
+          setQrOn(true);
+          // Delay showing the guide for 2 seconds (adjust as needed)
+          setTimeout(() => setShowGuide(true), 100);
+        })
         .catch((err) => {
           if (err) setQrOn(false);
         });
-        
+
     }
 
     // 🧹 Clean up on unmount.
@@ -76,22 +82,32 @@ const QrReader = () => {
 
   // Success
   const onScanSuccess = (result: QrScanner.ScanResult) => {
-    // Check if result.data exists in scannedQr array before setting it
     if (result?.data) {
-      if (scannedQr?.includes(result.data)) {
-        // If result.data already exists in scannedQr array
-        setScannedResult(result.data);
-        setScannedQrRepeated(); // Call setScannedQrRepeated
-        closeQrScanner(); // Call the closeQrScanner function
+      // Create data object from scanned QR
+      const data = qrScannerToObject(result.data);
+
+      // Check if data already exists in storeMaterial array
+      const isDataRepeated = storeMaterial?.some((material) => {
+        // Implement your comparison logic here
+        // For example, comparing material.code or other unique identifier
+        return material.code === data.code && material.name === data.name;
+      });
+
+      if (isDataRepeated) {
+        // If data already exists in storeMaterial array
+        setScannedQrRepeated();
+        closeQrScanner();
         scanner.current?.stop();
+        console.log('QR code already exists in storeMaterial');
       } else {
-        // If result.data is not in scannedQr array
-        setScannedResult(result.data);
-        setScannedQr(result.data);
-        closeQrScanner(); // Call the closeQrScanner function
+        // If data is not in storeMaterial array, add it
+        setStoreMaterial(data);
+        closeQrScanner();
         scanner.current?.stop();
+        console.log('QR code added to storeMaterial');
       }
     }
+    console.log(storeMaterial);
   };
 
   // Fail
@@ -113,29 +129,16 @@ const QrReader = () => {
     <div className={`qr-reader`} style={{ zIndex: '2' }}>
 
       {/* Close button */}
+      {showGuide &&
       <button className="close-button text-white text-3xl" onClick={handleCloseScanner}>
         <FaWindowClose />
       </button>
-
+      }
       {/* QR */}
       <video ref={videoEl} style={{ borderRadius: isLargeScreen ? '1rem' : '0' }} className="w-full h-full"></video>
       {/* Dotted line square */}
-      <div className="qr-guide"></div>
+      {showGuide && <div className="qr-guide"></div>}
 
-      {/* Show Data Result if scan is success */}
-      {scannedResult && (
-        <p
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            zIndex: 99999,
-            color: "white",
-          }}
-        >
-          Scanned Result: {scannedResult}
-        </p>
-      )}
     </div>
   );
 };
