@@ -23,13 +23,10 @@ const QrReader = () => {
   const [showGuide, setShowGuide] = useState<boolean>(false); // Control the visibility of the guide
 
   const closeQrScanner = useQrStore(state => state.closeQrScanner)
-  const setScannedQr = useQrStore(state => state.setScannedQr)
-  const scannedQr = useQrStore(state => state.scannedQr)
-  const setScannedQrRepeated = useQrStore(state => state.setScannedQrRepeated)
-  const isQrScannerOpen = useQrStore(state => state.isQrScannerOpen)
 
   const storeMaterial = useMaterialStore(state => state.storeMaterial)
   const setStoreMaterial = useMaterialStore(state => state.setStoreMaterial)
+  const setIsMaterialDuplicated = useMaterialStore(state => state.setIsMaterialDuplicated)
 
 
   const isLargeScreen = window.innerWidth >= 1024;
@@ -83,8 +80,22 @@ const QrReader = () => {
   // Success
   const onScanSuccess = (result: QrScanner.ScanResult) => {
     if (result?.data) {
+      // Extract QR code data
+      const qrData = result.data.trim(); // Remove leading/trailing whitespace
+
+      // Validate QR code format
+      const qrRegex = /^[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}$/; // Define regex pattern for "xxxx-xxxx-xxxx" format
+      if (!qrRegex.test(qrData)) {
+        // If QR code format is not valid
+        console.log('Invalid QR code format');
+        setIsMaterialDuplicated("El QR que esta intentando escanear no es válido");
+        closeQrScanner();
+        scanner.current?.stop();
+        return; // Exit early
+      }
+
       // Create data object from scanned QR
-      const data = qrScannerToObject(result.data);
+      const data = qrScannerToObject(qrData);
 
       // Check if data already exists in storeMaterial array
       const isDataRepeated = storeMaterial?.some((material) => {
@@ -95,7 +106,7 @@ const QrReader = () => {
 
       if (isDataRepeated) {
         // If data already exists in storeMaterial array
-        setScannedQrRepeated();
+        setIsMaterialDuplicated("Este material ya figura en tu listado");
         closeQrScanner();
         scanner.current?.stop();
         console.log('QR code already exists in storeMaterial');
@@ -130,9 +141,9 @@ const QrReader = () => {
 
       {/* Close button */}
       {showGuide &&
-      <button className="close-button text-white text-3xl" onClick={handleCloseScanner}>
-        <FaWindowClose />
-      </button>
+        <button className="close-button text-white text-3xl" onClick={handleCloseScanner}>
+          <FaWindowClose />
+        </button>
       }
       {/* QR */}
       <video ref={videoEl} style={{ borderRadius: isLargeScreen ? '1rem' : '0' }} className="w-full h-full"></video>

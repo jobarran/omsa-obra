@@ -4,25 +4,23 @@ import { useMaterialStore, useQrStore, useUiStore } from "@/store"
 import { MdDelete } from "react-icons/md";
 import { useEffect, useState } from 'react';
 import { CodeRepeatedError, DatePicker, EmptyTable, RecibirTableBody, SaveButton } from "@/components";
-import { getTodayDate, qrToRecibir } from "@/utils";
+import { checkDuplicates, getTodayDate, qrToRecibir } from "@/utils";
 import { createMaterials, getMaterialsByProject } from "@/actions";
-import { Material } from "@/interfaces";
-
-
 
 export const RecibirTable = () => {
 
-  const [duplicatedCodes, setDuplicatedCodes] = useState<string[]>([]); // State variable to store duplicated codes
+  const [duplicatedCodes, setDuplicatedCodes] = useState<string[]>([]);
 
-  const isScannedQrRepeated = useQrStore(state => state.isScannedQrRepeated)
-  const emptyScannedQr = useQrStore(state => state.emptyScannedQr)
-  const scannedQr = useQrStore(state => state.scannedQr)
   const activeProject = useUiStore(state => state.activeProject)
   const storeMaterial = useMaterialStore(state => state.storeMaterial)
   const emptyStoreMaterial = useMaterialStore(state => state.emptyStoreMaterial)
+  const isMaterialDuplicated = useMaterialStore(state => state.isMaterialDuplicated)
+  const setIsMaterialDuplicated = useMaterialStore(state => state.setIsMaterialDuplicated)
+  const errorMessage = useMaterialStore(state => state.errorMessage)
+
 
   useEffect(() => {
-    emptyScannedQr()
+    emptyStoreMaterial()
   }, [])
 
   const [value, setValue] = useState({
@@ -33,13 +31,12 @@ export const RecibirTable = () => {
   const handleSaveMaterials = async () => {
     if (storeMaterial) {
       const { materials } = await getMaterialsByProject(activeProject?.code);
-      const materialCodes = new Set(materials?.map(material => material.code)); // Extract material codes from stored materials
-      const duplicates = storeMaterial.filter(material => materialCodes.has(material.code)); // Filter storeMaterial for duplicates
+
+      const duplicates = checkDuplicates(materials, storeMaterial)
 
       if (duplicates.length > 0) {
-        //todo: CARTEL: CODIGOS DUPLICADOS. YA RECIBISTE ESTE MATERIAL
-        //todo: IF CODE AND NAME AND PROJECT ID ARE DUPLICATED
-        // If duplicates are found, extract the codes and update the state variable
+
+        setIsMaterialDuplicated(`Alguno de los materiales que cargaste ya figuran como recibidos`);
         const duplicatedCodesArray = duplicates.map(material => material.code);
         setDuplicatedCodes(duplicatedCodesArray);
 
@@ -61,7 +58,7 @@ export const RecibirTable = () => {
       />
 
       {
-        isScannedQrRepeated && <CodeRepeatedError />
+        isMaterialDuplicated && <CodeRepeatedError />
       }
 
       <RecibirTableBody duplicatedCodes={duplicatedCodes} />
