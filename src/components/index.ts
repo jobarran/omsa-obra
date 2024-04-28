@@ -15,5 +15,5 @@ export * from './recibir/SaveButton'
 export * from './recibir/RecibirTableBody'
 export * from './recibir/CodeRepeatedError'
 export * from './recibir/SavedSuccessMessage'
+export * from './recibir/ManualAddMaterial'
 
-export * from './remito/RemitoUploader'

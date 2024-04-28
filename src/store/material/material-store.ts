@@ -13,6 +13,8 @@ interface State {
     setIsLoadingMaterial: (isLoading: boolean) => void
     isMaterialSavedSuccess: boolean;
     setIsMaterialSavedSuccess: () => void;
+    isAddMaterialManuallyModal: boolean;
+    setIsAddMaterialManuallyModal: () => void;
 
 }
 
@@ -48,8 +50,11 @@ export const useMaterialStore = create<State>((set) => ({
     setIsMaterialSavedSuccess: () => {
         set({ isMaterialSavedSuccess: true });
         setTimeout(() => {
-            set({ isMaterialSavedSuccess: false }); 
+            set({ isMaterialSavedSuccess: false });
         }, 5000);
     },
-
+    isAddMaterialManuallyModal: false,
+    setIsAddMaterialManuallyModal: () => {
+        set((state) => ({ isAddMaterialManuallyModal: !state.isAddMaterialManuallyModal }));
+    }
 }));

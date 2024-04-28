@@ -2,7 +2,7 @@
 
 import { ButtonCard, ButtonCardUploadRemito } from "@/components";
 import QrReader from "@/components/qr/QrReader";
-import { useQrStore } from "@/store";
+import { useMaterialStore, useQrStore } from "@/store";
 import { FaQrcode, FaUpload } from 'react-icons/fa';
 import { FaPenToSquare, FaListUl } from 'react-icons/fa6';
 
@@ -11,6 +11,7 @@ export const RecibirBotones = () => {
 
     const isQrScannerOpen = useQrStore(state => state.isQrScannerOpen)
     const openQrScanner = useQrStore(state => state.openQrScanner)
+    const setIsAddMaterialManuallyModal = useMaterialStore(state => state.setIsAddMaterialManuallyModal)
 
     return (
 
@@ -43,7 +44,7 @@ export const RecibirBotones = () => {
                     <ButtonCard
                         text={"Carga manual"}
                         icon={<FaPenToSquare />}
-                        action={() => { }}
+                        action={setIsAddMaterialManuallyModal}
                     />
 
                 </div>
