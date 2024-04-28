@@ -13,10 +13,12 @@ interface Props {
 export const ButtonCardUploadRemito: React.FC<Props> = ({ text, icon, action }) => {
 
     const setStoreMaterial = useMaterialStore(state => state.setStoreMaterial)
+    const setIsLoadingMaterial = useMaterialStore(state => state.setIsLoadingMaterial)
 
     const { recognizedMaterials, isLoading, handleImageUpload } = useTextRecognition();
 
     useEffect(() => {
+        setIsLoadingMaterial(isLoading); // Update isLoading state in the store
         if (!isLoading && recognizedMaterials.length > 0) {
             setStoreMaterial(recognizedMaterials);
         }

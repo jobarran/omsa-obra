@@ -9,6 +9,9 @@ interface State {
     isMaterialDuplicated: boolean;
     errorMessage: string | null;
     setIsMaterialDuplicated: (errorMessage: string) => void; 
+    isLoadingMaterial: boolean;
+    setIsLoadingMaterial: (isLoading: boolean) => void
+
 }
 
 export const useMaterialStore = create<State>((set) => ({
@@ -37,4 +40,6 @@ export const useMaterialStore = create<State>((set) => ({
             set({ isMaterialDuplicated: false, errorMessage: null }); 
         }, 5000); 
     },
+    isLoadingMaterial: false,
+    setIsLoadingMaterial: (isLoading: boolean) => set({ isLoadingMaterial: isLoading }), // Updated function signature
 }));
