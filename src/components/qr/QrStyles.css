@@ -41,7 +41,7 @@
 
 .qr-reader .close-button {
   position: fixed;
-  bottom: 20px;
+  bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 9999;

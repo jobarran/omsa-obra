@@ -141,7 +141,7 @@ const QrReader = () => {
       {/* Close button */}
       {showGuide &&
         <button
-        className="close-button text-white text-md border rounded-md px-4 py-2 mx-auto mb-4"
+        className="close-button text-white text-md border rounded-md px-4 py-1 mx-auto mb-4"
         onClick={handleCloseScanner}
         style={{ zIndex: '3' }}>
         Cerrar
