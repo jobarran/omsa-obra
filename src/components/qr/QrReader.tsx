@@ -65,7 +65,7 @@ const QrReader = () => {
     // 🚨 This removes the QR Scanner from rendering and using camera when it is closed or removed from the UI.
     return () => {
       if (!videoElement) {
-        scanner.current?.stop();
+        scanner.current?.destroy(); // scanner.current?.stop();
       }
     };
   }, []);
@@ -90,7 +90,7 @@ const QrReader = () => {
         console.log('Invalid QR code format');
         setIsMaterialDuplicated("El QR que esta intentando escanear no es válido");
         closeQrScanner();
-        scanner.current?.stop();
+        scanner.current?.destroy(); // scanner.current?.stop();
         return; // Exit early
       }
 
@@ -108,13 +108,13 @@ const QrReader = () => {
         // If data already exists in storeMaterial array
         setIsMaterialDuplicated("Este material ya figura en tu listado");
         closeQrScanner();
-        scanner.current?.stop();
+        scanner.current?.destroy(); // scanner.current?.stop();
         console.log('QR code already exists in storeMaterial');
       } else {
         // If data is not in storeMaterial array, add it
         setStoreMaterial(data);
         closeQrScanner();
-        scanner.current?.stop();
+        scanner.current?.destroy(); // scanner.current?.stop();
         console.log('QR code added to storeMaterial');
       }
     }
@@ -138,12 +138,16 @@ const QrReader = () => {
   return (
 
     <div className={`qr-reader`} style={{ zIndex: '2' }}>
+      
 
       {/* Close button */}
       {showGuide &&
-        <button className="close-button text-white text-3xl" onClick={handleCloseScanner}>
-          <FaWindowClose />
-        </button>
+        <button
+        className="close-button text-white text-md border rounded-md px-4 py-2 mx-auto mb-4"
+        onClick={handleCloseScanner}
+        style={{ zIndex: '3' }}>
+        Cerrar
+    </button>
       }
       {/* QR */}
       <video ref={videoEl} style={{ borderRadius: isLargeScreen ? '1rem' : '0' }} className="w-full h-full"></video>
