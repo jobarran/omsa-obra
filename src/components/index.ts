@@ -1,5 +1,6 @@
 export * from './ui/title/Title'
 export * from './ui/cards/ButtonCard'
+export * from './ui/cards/ButtonCardUploadRemito'
 
 export * from './ui/top-menu/ChangeObraModal'
 export * from './ui/top-menu/TopMenu'
@@ -14,3 +15,4 @@ export * from './recibir/SaveButton'
 export * from './recibir/RecibirTableBody'
 export * from './recibir/CodeRepeatedError'
 
+export * from './remito/RemitoUploader'
