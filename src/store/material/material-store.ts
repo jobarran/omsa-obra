@@ -8,9 +8,11 @@ interface State {
     emptyStoreMaterial: () => void;
     isMaterialDuplicated: boolean;
     errorMessage: string | null;
-    setIsMaterialDuplicated: (errorMessage: string) => void; 
+    setIsMaterialDuplicated: (errorMessage: string) => void;
     isLoadingMaterial: boolean;
     setIsLoadingMaterial: (isLoading: boolean) => void
+    isMaterialSavedSuccess: boolean;
+    setIsMaterialSavedSuccess: () => void;
 
 }
 
@@ -34,12 +36,20 @@ export const useMaterialStore = create<State>((set) => ({
     emptyStoreMaterial: () => set({ storeMaterial: [] }),
     isMaterialDuplicated: false,
     errorMessage: null,
-    setIsMaterialDuplicated: (errorMessage:string) => { 
-        set({ isMaterialDuplicated: true, errorMessage }); 
+    setIsMaterialDuplicated: (errorMessage: string) => {
+        set({ isMaterialDuplicated: true, errorMessage });
         setTimeout(() => {
-            set({ isMaterialDuplicated: false, errorMessage: null }); 
-        }, 5000); 
+            set({ isMaterialDuplicated: false, errorMessage: null });
+        }, 5000);
     },
     isLoadingMaterial: false,
-    setIsLoadingMaterial: (isLoading: boolean) => set({ isLoadingMaterial: isLoading }), // Updated function signature
+    setIsLoadingMaterial: (isLoading: boolean) => set({ isLoadingMaterial: isLoading }),
+    isMaterialSavedSuccess: false,
+    setIsMaterialSavedSuccess: () => {
+        set({ isMaterialSavedSuccess: true });
+        setTimeout(() => {
+            set({ isMaterialSavedSuccess: false }); 
+        }, 5000);
+    },
+
 }));

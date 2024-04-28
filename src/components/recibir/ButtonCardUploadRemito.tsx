@@ -14,21 +14,24 @@ export const ButtonCardUploadRemito: React.FC<Props> = ({ text, icon, action }) 
 
     const setStoreMaterial = useMaterialStore(state => state.setStoreMaterial)
     const setIsLoadingMaterial = useMaterialStore(state => state.setIsLoadingMaterial)
+    const emptyStoreMaterial = useMaterialStore(state => state.emptyStoreMaterial)
 
     const { recognizedMaterials, isLoading, handleImageUpload } = useTextRecognition();
 
     useEffect(() => {
-        setIsLoadingMaterial(isLoading); // Update isLoading state in the store
+        setIsLoadingMaterial(isLoading)
         if (!isLoading && recognizedMaterials.length > 0) {
             setStoreMaterial(recognizedMaterials);
         }
     }, [recognizedMaterials, isLoading, setStoreMaterial]);
 
     const onFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+        emptyStoreMaterial();
         if (event.target.files && event.target.files[0]) {
             const image = event.target.files[0];
             handleImageUpload(image);
         }
+        event.target.value = ''; 
     };
 
     return (

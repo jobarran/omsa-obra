@@ -4,7 +4,7 @@ import { auth } from "@/auth.config";
 import { Material } from "@/interfaces";
 import prisma from "@/lib/prisma";
 
-export const createMaterials = async (materials: Material[]) => {
+export const createMaterials = async (materials: Material[], date: string) => {
     const session = await auth();
     const userId = session?.user.id;
 
@@ -43,7 +43,7 @@ export const createMaterials = async (materials: Material[]) => {
                     quantity: material.quantity,
                     status: material.status,
                     projectId: material.projectId,
-                    received: material.received,
+                    received: date,
                     installed: material.installed,
                     description: material.description
                 },

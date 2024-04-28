@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { CodeRepeatedError, DatePicker, EmptyTable, RecibirTableBody, SaveButton } from "@/components";
 import { checkDuplicates, getTodayDate, qrToRecibir } from "@/utils";
 import { createMaterials, getMaterialsByProject } from "@/actions";
+import { SavedSuccessMessage } from '../../../../components/recibir/SavedSuccessMessage';
 
 export const RecibirTable = () => {
 
@@ -16,7 +17,8 @@ export const RecibirTable = () => {
   const emptyStoreMaterial = useMaterialStore(state => state.emptyStoreMaterial)
   const isMaterialDuplicated = useMaterialStore(state => state.isMaterialDuplicated)
   const setIsMaterialDuplicated = useMaterialStore(state => state.setIsMaterialDuplicated)
-  const errorMessage = useMaterialStore(state => state.errorMessage)
+  const isMaterialSavedSuccess = useMaterialStore(state => state.isMaterialSavedSuccess)
+  const setIsMaterialSavedSuccess = useMaterialStore(state => state.setIsMaterialSavedSuccess)
 
 
   useEffect(() => {
@@ -42,7 +44,8 @@ export const RecibirTable = () => {
 
       } else {
         // If no duplicates are found, proceed with saving the materials
-        await createMaterials(storeMaterial);
+        setIsMaterialSavedSuccess()
+        await createMaterials(storeMaterial, value.startDate);
         emptyStoreMaterial();
       }
     }
@@ -59,6 +62,10 @@ export const RecibirTable = () => {
 
       {
         isMaterialDuplicated && <CodeRepeatedError />
+      }
+
+      {
+        isMaterialSavedSuccess && <SavedSuccessMessage />
       }
 
       <RecibirTableBody duplicatedCodes={duplicatedCodes} />
