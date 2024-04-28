@@ -2,8 +2,6 @@
 
 
 import { useEffect, useRef, useState } from "react";
-import { FaRegWindowClose } from "react-icons/fa";
-import { FaWindowClose } from "react-icons/fa";
 
 
 // Styles
