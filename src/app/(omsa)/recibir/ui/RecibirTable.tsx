@@ -42,7 +42,10 @@ export const RecibirTable = () => {
         const duplicatedCodesArray = duplicates.map(material => material.code);
         setErrorCodes(duplicatedCodesArray);
       } else if (difObra.length > 0) {
-        setIsMaterialError('El material que esta intentando recibir corresponde a otra obra');
+        setIsMaterialError('El material que esta intentando cargar corresponde a otra obra');
+        const difObraCodesArray = difObra.map(material => material.code);
+        setErrorCodes(difObraCodesArray);
+
       } else {
         // If no duplicates or materials from different obra are found, proceed with saving the materials
         setIsMaterialSavedSuccess();
