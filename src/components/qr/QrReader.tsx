@@ -24,7 +24,7 @@ const QrReader = () => {
 
   const storeMaterial = useMaterialStore(state => state.storeMaterial)
   const setStoreMaterial = useMaterialStore(state => state.setStoreMaterial)
-  const setIsMaterialDuplicated = useMaterialStore(state => state.setIsMaterialDuplicated)
+  const setIsMaterialError = useMaterialStore(state => state.setIsMaterialError)
 
 
   const isLargeScreen = window.innerWidth >= 1024;
@@ -86,7 +86,7 @@ const QrReader = () => {
       if (!qrRegex.test(qrData)) {
         // If QR code format is not valid
         console.log('Invalid QR code format');
-        setIsMaterialDuplicated("El QR que esta intentando escanear no es válido");
+        setIsMaterialError("El QR que esta intentando escanear no es válido");
         closeQrScanner();
         scanner.current?.destroy(); // scanner.current?.stop();
         return; // Exit early
@@ -104,7 +104,7 @@ const QrReader = () => {
 
       if (isDataRepeated) {
         // If data already exists in storeMaterial array
-        setIsMaterialDuplicated("Este material ya figura en tu listado");
+        setIsMaterialError("Este material ya figura en tu listado");
         closeQrScanner();
         scanner.current?.destroy(); // scanner.current?.stop();
         console.log('QR code already exists in storeMaterial');

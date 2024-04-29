@@ -11,7 +11,7 @@ export const qrScannerToObject = (scannedQr: string): Material => {
     // Create a new material object with the specified format
     const material: Material = {
         code,
-        name,
+        name: name.toUpperCase(),
         type,
         quantity: "1",
         status: "recibido",

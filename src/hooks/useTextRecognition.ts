@@ -18,7 +18,7 @@ const useTextRecognition = () => {
                 const timeoutPromise = new Promise<void>((resolve) => {
                     timeoutId = setTimeout(() => {
                         resolve();
-                    }, 7000); // Set max loading time to 5 seconds
+                    }, 7000);
                 });
 
                 try {
@@ -32,6 +32,7 @@ const useTextRecognition = () => {
                 }
 
                 const result = await recognitionPromise;
+                console.log(result)
                 const filteredWords = extractFormattedText(result.data.words);
                 const materials = qrScannerToObjectArray(filteredWords); // Convert recognized text to materials
                 setRecognizedMaterials(materials);
@@ -51,9 +52,31 @@ const useTextRecognition = () => {
     };
 
     const extractFormattedText = (words: any[]): string[] => {
+        // Adjusted regex pattern to match the expected formats
         const validFormatRegex = /^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/;
-        const filteredWords = words.filter(word => validFormatRegex.test(word.text));
-        return filteredWords.map(word => word.text);
+        
+        // Function to normalize the text before validation
+        const normalizeText = (text: string): string => {
+            // Replace ':' with '-'
+            text = text.replace(/:/g, '-');
+            // Replace lowercase 'm' with uppercase 'M'
+            text = text.replace(/m/g, 'M');
+            // Replace 's' with '5'
+            text = text.replace(/s/g, '5');
+            // Remove special characters like '¢'
+            text = text.replace(/[^A-Z0-9\-]/g, '');
+            // Ensure the first character is uppercase
+            text = text.charAt(0).toUpperCase() + text.slice(1);
+            return text;
+        };
+    
+        const filteredWords = words.filter(word => {
+            const normalizedText = normalizeText(word.text);
+            return validFormatRegex.test(normalizedText);
+        });
+    
+        // Map and normalize the filtered words for the final result
+        return filteredWords.map(word => normalizeText(word.text));
     };
 
     return { recognizedMaterials, isLoading, handleImageUpload };

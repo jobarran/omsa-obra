@@ -6,9 +6,9 @@ interface State {
     setStoreMaterial: (material: Material | Material[]) => void;
     deleteStoreMaterial: (materialCode: string) => void;
     emptyStoreMaterial: () => void;
-    isMaterialDuplicated: boolean;
+    isMaterialError: boolean;
     errorMessage: string | null;
-    setIsMaterialDuplicated: (errorMessage: string) => void;
+    setIsMaterialError: (errorMessage: string) => void;
     isLoadingMaterial: boolean;
     setIsLoadingMaterial: (isLoading: boolean) => void
     isMaterialSavedSuccess: boolean;
@@ -36,12 +36,12 @@ export const useMaterialStore = create<State>((set) => ({
             storeMaterial: state.storeMaterial ? state.storeMaterial.filter(material => material.code !== materialCodeToDelete) : [],
         })),
     emptyStoreMaterial: () => set({ storeMaterial: [] }),
-    isMaterialDuplicated: false,
+    isMaterialError: false,
     errorMessage: null,
-    setIsMaterialDuplicated: (errorMessage: string) => {
-        set({ isMaterialDuplicated: true, errorMessage });
+    setIsMaterialError: (errorMessage: string) => {
+        set({ isMaterialError: true, errorMessage });
         setTimeout(() => {
-            set({ isMaterialDuplicated: false, errorMessage: null });
+            set({ isMaterialError: false, errorMessage: null });
         }, 5000);
     },
     isLoadingMaterial: false,
