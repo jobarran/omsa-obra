@@ -51,7 +51,7 @@ export const RecibirTableBody = ({ duplicatedCodes }: Props) => {
                     ) : (
                         <tbody className="divide-y divide-gray-100 border-t border-gray-100">
                             {storeMaterial?.map((item) => (
-                                <tr key={item.code} className={duplicatedCodes?.includes(item.code) ? "bg-red-100" : "hover:bg-gray-50"}>
+                                <tr key={item.code+item.name[0]} className={duplicatedCodes?.includes(item.code) ? "bg-red-100" : "hover:bg-gray-50"}>
                                     <td className="pl-6 pr-2 py-4 font-medium text-gray-900 text-center">{item.projectId}</td>
                                     <td className="px-2 py-4 text-center">{item.type}</td>
                                     <td className="px-2 py-4 text-center">{item.name}</td>

@@ -5,16 +5,22 @@ import { qrScannerToObject } from "@/utils";
 import { SubmitHandler, useForm } from "react-hook-form";
 import clsx from "clsx";
 
+//todo: add returnMotivo returnDate to schema, add updateMaterialById (change the status, add description of return) 
+// todo: pasar a useState todos los modal, quitar del store
+
 type FormInputs = {
     projectId: string;
     name: string;
     code: string;
 }
 
-export const ManualAddMaterial = () => {
+interface Props {
+    returnModal: boolean
+    setReturnModal: () => void
+}
 
-    const isAddMaterialManuallyModal = useMaterialStore(state => state.isAddMaterialManuallyModal)
-    const setIsAddMaterialManuallyModal = useMaterialStore(state => state.setIsAddMaterialManuallyModal)
+export const ReturnMaterialModal = ({ returnModal, setReturnModal }: Props) => {
+
     const storeMaterial = useMaterialStore(state => state.storeMaterial)
     const setIsMaterialError = useMaterialStore(state => state.setIsMaterialError)
     const setStoreMaterial = useMaterialStore(state => state.setStoreMaterial)
@@ -24,7 +30,7 @@ export const ManualAddMaterial = () => {
 
     const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         if (event.target instanceof HTMLDivElement && event.target.id === 'add-task-modal') {
-            setIsAddMaterialManuallyModal();
+            setReturnModal();
             reset()
         }
     };
@@ -55,12 +61,12 @@ export const ManualAddMaterial = () => {
             if (isDataRepeated) {
                 // If data already exists in storeMaterial array
                 setIsMaterialError("Este material ya figura en tu listado");
-                setIsAddMaterialManuallyModal();
+                setReturnModal();
                 console.log('This material is already listed');
             } else {
                 // If data is not in storeMaterial array, add it
                 setStoreMaterial(dataObject);
-                setIsAddMaterialManuallyModal();
+                setReturnModal();
                 reset()
                 console.log('Material added to storeMaterial');
             }
@@ -68,9 +74,9 @@ export const ManualAddMaterial = () => {
         console.log(storeMaterial);
     }
 
-    const modalClasses = `fixed inset-0 flex justify-center items-center bg-opacity-50 z-50 transition-opacity duration-300 ${isAddMaterialManuallyModal ? 'opacity-100' : 'opacity-0 pointer-events-none'}`;
-    const modalContentClasses = `bg-white rounded-lg overflow-hidden h-auto w-full max-w-xs md:max-w-sm xl:max-w-lg transition-opacity duration-300 ${isAddMaterialManuallyModal ? 'opacity-100' : 'opacity-0'}`;
-    const blurEffectClasses = `fixed inset-0 bg-black bg-opacity-30 z-40 transition-opacity duration-300 ${isAddMaterialManuallyModal ? 'opacity-100' : 'opacity-0 pointer-events-none'}`;
+    const modalClasses = `fixed inset-0 flex justify-center items-center bg-opacity-50 z-50 transition-opacity duration-300 ${returnModal ? 'opacity-100' : 'opacity-0 pointer-events-none'}`;
+    const modalContentClasses = `bg-white rounded-lg overflow-hidden h-auto w-full max-w-xs md:max-w-sm xl:max-w-lg transition-opacity duration-300 ${returnModal ? 'opacity-100' : 'opacity-0'}`;
+    const blurEffectClasses = `fixed inset-0 bg-black bg-opacity-30 z-40 transition-opacity duration-300 ${returnModal ? 'opacity-100' : 'opacity-0 pointer-events-none'}`;
 
 
     return (
@@ -79,7 +85,7 @@ export const ManualAddMaterial = () => {
             <div
                 id="add-task-modal"
                 tabIndex={-1}
-                aria-hidden={isAddMaterialManuallyModal}
+                aria-hidden={returnModal}
                 className={modalClasses}
                 onClick={handleOverlayClick}
             >
@@ -88,7 +94,7 @@ export const ManualAddMaterial = () => {
                         <div className="flex items-start justify-between py-2 border-b rounded-t">
                             <div className="flex flex-col">
                                 <h1 className="flex items-center md:text-xl font-extrabold">
-                                    Agregar Material
+                                    Devolver Material
                                 </h1>
                             </div>
                         </div>

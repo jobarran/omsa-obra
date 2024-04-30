@@ -59,7 +59,6 @@ export const RecibirTable = () => {
 
     <div className="flex flex-col justify-centerr">
 
-      <ManualAddMaterial />
 
       <DatePicker
         value={value}

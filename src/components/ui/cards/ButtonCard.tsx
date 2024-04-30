@@ -5,7 +5,7 @@ import React from 'react'
 interface Props {
     text: string,
     icon: any,
-    action: any
+    action: any,
 }
 
 export const ButtonCard = ({ text, icon, action }: Props) => {
