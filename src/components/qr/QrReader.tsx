@@ -9,18 +9,21 @@ import "./QrStyles.css";
 
 // Qr Scanner
 import QrScanner from "qr-scanner";
-import { useMaterialStore, useQrStore } from "@/store";
+import { useMaterialStore } from "@/store";
 import { qrScannerToObject } from "@/utils";
 
-const QrReader = () => {
+interface Props {
+  qrReader: boolean;
+  setQrReader: ()=>void
+}
+
+export const QrReader = ({qrReader, setQrReader}:Props) => {
   // QR States
   const scanner = useRef<QrScanner>();
   const videoEl = useRef<HTMLVideoElement>(null);
   const qrBoxEl = useRef<HTMLDivElement>(null);
   const [qrOn, setQrOn] = useState<boolean>(true);
   const [showGuide, setShowGuide] = useState<boolean>(false); // Control the visibility of the guide
-
-  const closeQrScanner = useQrStore(state => state.closeQrScanner)
 
   const storeMaterial = useMaterialStore(state => state.storeMaterial)
   const setStoreMaterial = useMaterialStore(state => state.setStoreMaterial)
@@ -87,7 +90,7 @@ const QrReader = () => {
         // If QR code format is not valid
         console.log('Invalid QR code format');
         setIsMaterialError("El QR que esta intentando escanear no es válido");
-        closeQrScanner();
+        setQrReader();
         scanner.current?.destroy(); // scanner.current?.stop();
         return; // Exit early
       }
@@ -105,13 +108,13 @@ const QrReader = () => {
       if (isDataRepeated) {
         // If data already exists in storeMaterial array
         setIsMaterialError("Este material ya figura en tu listado");
-        closeQrScanner();
+        setQrReader();
         scanner.current?.destroy(); // scanner.current?.stop();
         console.log('QR code already exists in storeMaterial');
       } else {
         // If data is not in storeMaterial array, add it
         setStoreMaterial(data);
-        closeQrScanner();
+        setQrReader();
         scanner.current?.destroy(); // scanner.current?.stop();
         console.log('QR code added to storeMaterial');
       }
@@ -126,7 +129,7 @@ const QrReader = () => {
   };
 
   const handleCloseScanner = () => {
-    closeQrScanner()
+    setQrReader()
     scanner.current?.stop();
   }
 
@@ -155,5 +158,3 @@ const QrReader = () => {
     </div>
   );
 };
-
-export default QrReader;

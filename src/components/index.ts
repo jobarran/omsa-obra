@@ -10,7 +10,7 @@ export * from './ui/top-menu/TopMenuIcon'
 export * from './qr/QrReader'
 
 export * from './recibir/DatePicker'
-export * from './recibir/EmptyTable'
+export * from './recibir/EmptyTableButton'
 export * from './recibir/SaveButton'
 export * from './recibir/RecibirTableBody'
 export * from './recibir/CodeRepeatedError'

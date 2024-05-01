@@ -1,38 +1,42 @@
 'use client'
 
-import { ButtonCard, ButtonCardUploadRemito, ManualAddMaterial, ReturnMaterialModal } from "@/components";
-import QrReader from "@/components/qr/QrReader";
-import { useMaterialStore, useQrStore } from "@/store";
+import { ButtonCard, ButtonCardUploadRemito, ManualAddMaterial, ReturnMaterialModal, QrReader } from '@/components';
 import { useState } from "react";
-import { FaQrcode, FaUpload } from 'react-icons/fa';
-import { FaPenToSquare, FaListUl, FaArrowRightArrowLeft } from 'react-icons/fa6';
+import { FaQrcode } from 'react-icons/fa';
+import { FaPenToSquare, FaArrowRightArrowLeft } from 'react-icons/fa6';
+import { FaCamera } from "react-icons/fa";
 
 
 export const RecibirBotones = () => {
 
     const [returnModal, setReturnModal] = useState(false)
     const [addModal, setAddModal] = useState(false)
+    const [qrReader, setQrReader] = useState(false)
 
-    const isQrScannerOpen = useQrStore(state => state.isQrScannerOpen)
-    const openQrScanner = useQrStore(state => state.openQrScanner)
-    const setIsAddMaterialManuallyModal = useMaterialStore(state => state.setIsAddMaterialManuallyModal)
-    const isAddMaterialManuallyModal = useMaterialStore(state => state.isAddMaterialManuallyModal)
-
-
+    
     return (
 
         <div className="-mx-1">
 
             {
-                isQrScannerOpen && <QrReader />
+                qrReader && 
+                <QrReader
+                    qrReader={qrReader}
+                    setQrReader={()=>setQrReader(!qrReader)}
+                />
             }
             {
-                isAddMaterialManuallyModal && <ManualAddMaterial />
+                addModal &&
+                <ManualAddMaterial
+                    addModal={addModal}
+                    setAddModal={() => setAddModal(!addModal)}
+                />
             }
             {
-                returnModal && <ReturnMaterialModal
+                returnModal &&
+                <ReturnMaterialModal
                     returnModal={returnModal}
-                    setReturnModal={()=>setReturnModal(!returnModal)}
+                    setReturnModal={() => setReturnModal(!returnModal)}
                 />
             }
 
@@ -41,26 +45,30 @@ export const RecibirBotones = () => {
 
                     <ButtonCard
                         text={"Escanear QR"}
+                        smallText={'QR'}
                         icon={<FaQrcode />}
-                        action={openQrScanner}
+                        action={setQrReader}
                     />
 
                     <ButtonCardUploadRemito
-                        text={"Subir foto de Remito"}
-                        icon={<FaListUl />}
+                        text={"Foto de Remito o Etiqueta"}
+                        smallText={'Foto'}
+                        icon={<FaCamera />}
                         action={() => { }}
                     />
 
                     <ButtonCard
                         text={"Carga manual"}
+                        smallText={'Manual'}
                         icon={<FaPenToSquare />}
-                        action={setIsAddMaterialManuallyModal}
+                        action={setAddModal}
                     />
 
                     <ButtonCard
                         text={"Devolver material"}
+                        smallText={'Devolver'}
                         icon={<FaArrowRightArrowLeft />}
-                        action={() => setReturnModal(true)}
+                        action={setReturnModal}
                     />
 
                 </div>

@@ -8,9 +8,10 @@ interface Props {
     text: string;
     icon: React.ReactNode;
     action: () => void;
+    smallText: string
 }
 
-export const ButtonCardUploadRemito: React.FC<Props> = ({ text, icon, action }) => {
+export const ButtonCardUploadRemito: React.FC<Props> = ({ text, icon, action, smallText }) => {
 
     const setStoreMaterial = useMaterialStore(state => state.setStoreMaterial)
     const setIsLoadingMaterial = useMaterialStore(state => state.setIsLoadingMaterial)
@@ -31,15 +32,17 @@ export const ButtonCardUploadRemito: React.FC<Props> = ({ text, icon, action }) 
             const image = event.target.files[0];
             handleImageUpload(image);
         }
-        event.target.value = ''; 
+        event.target.value = '';
     };
 
     return (
         <label className="flex-1 p-2 mx-1 bg-white border border-gray-200 rounded-lg hover:bg-gray-200 cursor-pointer">
             <input type="file" accept="image/*" className="hidden" onChange={onFileChange} />
             <div onClick={action}>
-                <p className="font-normal text-base text-gray-700">{icon}</p>
-                <h5 className="mt-2 text-sm font-medium tracking-tight text-gray-900">{text}</h5>
+                <p className="font-normal text-base text-gray-700 hidden sm:block">{icon}</p>
+                <p className="font-normal text-xl text-gray-700 flex items-center justify-center sm:hidden">{icon}</p>
+                <h5 className="mt-2 text-sm font-medium tracking-tight text-gray-900 hidden sm:block">{text}</h5>
+                <h5 className="mt-2 text-sm font-medium tracking-tight text-gray-900 flex items-center justify-center sm:hidden">{smallText}</h5>
             </div>
         </label>
     );

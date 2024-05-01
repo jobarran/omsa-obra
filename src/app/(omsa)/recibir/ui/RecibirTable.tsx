@@ -3,7 +3,7 @@
 import { useMaterialStore, useQrStore, useUiStore } from "@/store"
 import { MdDelete } from "react-icons/md";
 import { useEffect, useState } from 'react';
-import { CodeRepeatedError, DatePicker, EmptyTable, ManualAddMaterial, RecibirTableBody, SaveButton } from "@/components";
+import { CodeRepeatedError, DatePicker, EmptyTableButton, RecibirTableBody, SaveButton } from "@/components";
 import { checkDuplicates, checkObra, getTodayDate, qrToRecibir } from "@/utils";
 import { createMaterials, getMaterialsByProject } from "@/actions";
 import { SavedSuccessMessage } from '../../../../components/recibir/SavedSuccessMessage';
@@ -77,7 +77,7 @@ export const RecibirTable = () => {
 
       <div className="flex w-full mt-2">
         <SaveButton handleSaveMaterials={() => handleSaveMaterials()} />
-        <EmptyTable />
+        <EmptyTableButton />
       </div>
 
     </div>
