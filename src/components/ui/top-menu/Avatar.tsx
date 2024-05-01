@@ -3,7 +3,6 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { IoPersonOutline } from "react-icons/io5";
 
 
 interface Props {

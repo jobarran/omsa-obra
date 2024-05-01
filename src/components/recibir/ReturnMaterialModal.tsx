@@ -1,18 +1,11 @@
 'use client';
 
-import { useMaterialStore, useUiStore } from "@/store"
-import { qrScannerToObject } from "@/utils";
-import { SubmitHandler, useForm } from "react-hook-form";
-import clsx from "clsx";
+import { useUiStore } from "@/store"
 
-//todo: add returnMotivo returnDate to schema, add updateMaterialById (change the status, add description of return) 
-// todo: pasar a useState todos los modal, quitar del store
-
-type FormInputs = {
-    projectId: string;
-    name: string;
-    code: string;
-}
+import { useEffect, useState } from "react";
+import { Material } from "@/interfaces";
+import { getMaterialsByProject, updateMaterial } from "@/actions";
+import { sortMaterials, trakingEntry } from "@/utils";
 
 interface Props {
     returnModal: boolean
@@ -21,61 +14,76 @@ interface Props {
 
 export const ReturnMaterialModal = ({ returnModal, setReturnModal }: Props) => {
 
-    const storeMaterial = useMaterialStore(state => state.storeMaterial)
-    const setIsMaterialError = useMaterialStore(state => state.setIsMaterialError)
-    const setStoreMaterial = useMaterialStore(state => state.setStoreMaterial)
+    //todo: create a search dropdown instead of using select
+
     const activeProject = useUiStore(state => state.activeProject)
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormInputs>()
+    const [materials, setMaterials] = useState<Material[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [selectMaterial, setSelectMaterial] = useState<Material>();
+    const [description, setDescription] = useState<string>('')
+
+    useEffect(() => {
+        const fetchMaterials = async () => {
+            try {
+                const result = await getMaterialsByProject(activeProject?.code);
+                if (result.ok) {
+                    const fetchedMaterials = result.materials || [];
+                    const recibidoMaterials = fetchedMaterials.filter(material => material.status === 'recibido');
+                    const orderedNotInstalledMaterials = sortMaterials(recibidoMaterials);
+                    setMaterials(orderedNotInstalledMaterials);
+                    setSelectMaterial(undefined);
+                } else {
+                    console.error(result.message);
+                }
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (returnModal && activeProject) {
+            fetchMaterials();
+        }
+    }, [returnModal, activeProject]);
+
 
     const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         if (event.target instanceof HTMLDivElement && event.target.id === 'add-task-modal') {
             setReturnModal();
-            reset()
         }
     };
 
-    const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    const handleMaterialChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedMaterial = materials.find(material => material.id === event.target.value);
+        setSelectMaterial(selectedMaterial);
+        console.log(selectMaterial)
+    };
 
-        if (data) {
+    const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setDescription(event.target.value);
+    };
 
-            const stringData = `${data.projectId}-${data.name}-${data.code}`;
-
-            // Create data object from scanned QR
-            const dataObject = qrScannerToObject(stringData);
-
-            // Check if data already exists in storeMaterial array
-            const isDataRepeated = storeMaterial?.some((material) => {
-                // Compare codes first
-                if (material.code === data.code) {
-                    // Check if the first characters of names are the same
-                    if (material.name[0] === data.name[0]) {
-                        // Return true if both code and first characters of names match
-                        return true;
-                    }
-                }
-                // Return false if either code or first characters of names don't match
-                return false;
-            });
-
-            if (isDataRepeated) {
-                // If data already exists in storeMaterial array
-                setIsMaterialError("Este material ya figura en tu listado");
-                setReturnModal();
-                console.log('This material is already listed');
-            } else {
-                // If data is not in storeMaterial array, add it
-                setStoreMaterial(dataObject);
-                setReturnModal();
-                reset()
-                console.log('Material added to storeMaterial');
-            }
+    const onSubmit = async () => {
+        if (!selectMaterial) {
+            console.error("No material selected");
+            return;
         }
-        console.log(storeMaterial);
+
+        const trakingData = trakingEntry(selectMaterial,'devolver', description)
+
+        const updatedMaterial = { ...selectMaterial, tracking: trakingData };
+
+        try {
+            await updateMaterial(updatedMaterial);
+        } catch (error) {
+            console.error("Error updating material:", error);
+        }
     }
 
     const modalClasses = `fixed inset-0 flex justify-center items-center bg-opacity-50 z-50 transition-opacity duration-300 ${returnModal ? 'opacity-100' : 'opacity-0 pointer-events-none'}`;
-    const modalContentClasses = `bg-white rounded-lg overflow-hidden h-auto w-full max-w-xs md:max-w-sm xl:max-w-lg transition-opacity duration-300 ${returnModal ? 'opacity-100' : 'opacity-0'}`;
+    const modalContentClasses = `bg-white rounded-lg overflow-hidden h-auto w-full max-w-xs md:max-w-sm transition-opacity duration-300 ${returnModal ? 'opacity-100' : 'opacity-0'}`;
     const blurEffectClasses = `fixed inset-0 bg-black bg-opacity-30 z-40 transition-opacity duration-300 ${returnModal ? 'opacity-100' : 'opacity-0 pointer-events-none'}`;
 
 
@@ -99,73 +107,38 @@ export const ReturnMaterialModal = ({ returnModal, setReturnModal }: Props) => {
                             </div>
                         </div>
                         <div className="overflow-auto max-h-[70vh]">
-                            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
-                                <div className="flex items-center mt-4">
-                                    <div className="flex-1 flex items-center">
-                                        <input
-                                            type="text"
-                                            id="projectId"
-                                            placeholder="Obra"
-                                            maxLength={4}
-                                            defaultValue={activeProject?.code}
-                                            readOnly // Add readOnly attribute here to disable editing
-                                            className="bg-gray-50 border text-gray-900 sm:text-sm rounded-lg block w-full h-8 p-2.5 mr-1"
-                                            style={{ pointerEvents: 'none' }}
-                                            {...register('projectId', {
-                                                required: true,
-                                            })}
-                                        />
-                                    </div>
-                                    <div className="flex items-center">
-                                        <span className="text-gray-600 mx-2">-</span>
-                                    </div>
-                                    <div className="flex-1 flex items-center">
-                                        <input
-                                            type="text"
-                                            id="name"
-                                            placeholder="Nombre"
-                                            maxLength={4}
-                                            className={clsx(
-                                                "bg-gray-50 border text-gray-900 sm:text-sm rounded-lg block w-full h-8 p-2.5 mr-1",
-                                                {
-                                                    'focus:outline-none focus:border-2 border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500': !!errors.name
-                                                }
-                                            )}
-                                            {...register('name', {
-                                                required: true,
-                                            })}
-                                        />
-                                    </div>
-                                    <div className="flex items-center">
-                                        <span className="text-gray-600 mx-2">-</span>
-                                    </div>
-                                    <div className="flex-1 flex items-center">
-                                        <input
-                                            type="text"
-                                            id="code"
-                                            placeholder="ID"
-                                            maxLength={4}
-                                            className={clsx(
-                                                "bg-gray-50 border text-gray-900 sm:text-sm rounded-lg block w-full h-8 p-2.5",
-                                                {
-                                                    'focus:outline-none focus:border-2 border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500': !!errors.name
-                                                }
-                                            )}
-                                            {...register('code', {
-                                                required: true,
-                                            })}
-                                        />
-                                    </div>
+                            <form className="space-y-4 md:space-y-6">
+                                <div className="flex flex-col items-center mt-4">
+
+                                    <select
+                                        id="material"
+                                        value={selectMaterial?.id || ''} // Control the value of the select input
+                                        onChange={handleMaterialChange}
+                                        className="bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4"
+                                    >
+                                        <option value="" disabled defaultValue="">Elegir Material</option>
+                                        {materials.map(material => (
+                                            <option key={material.id} value={material.id}>
+                                                {material.projectId}-{material.name}-{material.code}
+                                            </option>
+                                        ))}
+                                    </select>
+
+                                    <textarea
+                                        id="Detalle"
+                                        placeholder="Detalle"
+                                        className="bg-gray-50 border text-gray-900 sm:text-sm rounded-lg block w-full p-2.5"
+                                        onChange={handleDescriptionChange}
+                                    />
                                 </div>
 
                                 <button
                                     type="submit"
+                                    onClick={onSubmit}
                                     className={`font-medium text-sm px-4 py-2 border rounded-lg text-gray-700 bg-white border-gray-200 hover:bg-gray-200'}`}
                                 >
-                                    Agregar Material
+                                    Devolver Material
                                 </button>
-
-
                             </form>
                         </div>
                     </div>

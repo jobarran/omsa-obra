@@ -3,6 +3,7 @@
 import { auth } from "@/auth.config";
 import { Material } from "@/interfaces";
 import prisma from "@/lib/prisma";
+import { trakingEntry } from "@/utils";
 
 export const createMaterials = async (materials: Material[], date: string) => {
     const session = await auth();
@@ -34,6 +35,8 @@ export const createMaterials = async (materials: Material[], date: string) => {
                 continue;
             }
 
+            const trakingData = trakingEntry(material, 'recibir')
+
             // Otherwise, create the material
             const createdMaterial = await prisma.material.create({
                 data: {
@@ -45,7 +48,7 @@ export const createMaterials = async (materials: Material[], date: string) => {
                     projectId: material.projectId,
                     received: date,
                     installed: material.installed,
-                    tracking: material.tracking
+                    tracking: trakingData
                 },
                 select: {
                     code: true,

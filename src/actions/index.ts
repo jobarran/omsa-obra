@@ -10,3 +10,4 @@ export { deleteProjectById } from './project/delete-project-by-id'
 
 export { createMaterials } from './material/create-material'
 export { getMaterialsByProject } from './material/get-materials-by-project'
+export { updateMaterial } from './material/update-material'
