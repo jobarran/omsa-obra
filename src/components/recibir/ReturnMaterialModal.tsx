@@ -98,7 +98,7 @@ export const ReturnMaterialModal = ({ returnModal, setReturnModal }: Props) => {
                 onClick={handleOverlayClick}
             >
                 <div className={modalContentClasses}>
-                    <div className="p-4">
+                    <div className="m-4">
                         <div className="flex items-start justify-between py-2 border-b rounded-t">
                             <div className="flex flex-col">
                                 <h1 className="flex items-center md:text-xl font-extrabold">
