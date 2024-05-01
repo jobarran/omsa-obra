@@ -1,6 +1,6 @@
 
 export interface Material {
-    id: string;
+    id?: string;
     code: string,
     name: string;
     type: MaterialType;
