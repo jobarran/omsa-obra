@@ -1,7 +1,6 @@
 'use client'
 
-import { useMaterialStore, useQrStore, useUiStore } from "@/store"
-import { MdDelete } from "react-icons/md";
+import { useMaterialStore, useUiStore } from "@/store"
 import { useEffect, useState } from 'react';
 import { CodeRepeatedError, DatePicker, EmptyTableButton, RecibirTableBody, SaveButton } from "@/components";
 import { checkDuplicates, checkObra, getTodayDate, qrToRecibir } from "@/utils";
