@@ -36,9 +36,6 @@ export default function MontarPage() {
                 </a>
             </div>
 
-            {
-                qrScannerOpen && <QrReader />
-            }
 
 
         </div>
