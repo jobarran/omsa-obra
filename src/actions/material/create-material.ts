@@ -45,7 +45,7 @@ export const createMaterials = async (materials: Material[], date: string) => {
                     projectId: material.projectId,
                     received: date,
                     installed: material.installed,
-                    description: material.description
+                    tracking: material.tracking
                 },
                 select: {
                     code: true,
@@ -56,7 +56,7 @@ export const createMaterials = async (materials: Material[], date: string) => {
                     projectId: true,
                     received: true,
                     installed: true,
-                    description: true,
+                    tracking: true,
                 }
             });
             createdMaterials.push(createdMaterial);

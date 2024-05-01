@@ -8,12 +8,12 @@ export interface Material {
     projectId: string
     received: string | null
     installed: string | null
-    description: string | null
+    tracking: string | null
 }
 
 
 
 export type MaterialType = 'varios' | 'modulo' | 'pista'
-export type MaterialStatus = 'recibido' | 'instalado'
+export type MaterialStatus = 'fabrica' | 'recibido' | 'instalado'
 
 

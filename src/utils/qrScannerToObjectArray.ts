@@ -17,7 +17,7 @@ export const qrScannerToObjectArray = (scannedQrs: string[]): Material[] => {
             projectId,
             received: null,
             installed: null,
-            description: null
+            tracking: null
         };
 
         return material;

@@ -25,6 +25,7 @@ enum MaterialType {
 }
 
 enum MaterialStatus {
+  fabrica
   recibido
   instalado
 }
@@ -50,15 +51,15 @@ model Project {
 }
 
 model Material {
-  id          String         @id @default(uuid())
-  type        MaterialType   @default(varios)
-  name        String
-  code        String
-  quantity    String
-  status      MaterialStatus @default(recibido)
-  received    String?
-  installed   String?
-  description String?
+  id        String         @id @default(uuid())
+  type      MaterialType   @default(varios)
+  name      String
+  code      String
+  quantity  String
+  status    MaterialStatus @default(recibido)
+  received  String?
+  installed String?
+  tracking  String?
 
   // Relations - Up
   project   Project @relation(fields: [projectId], references: [code])

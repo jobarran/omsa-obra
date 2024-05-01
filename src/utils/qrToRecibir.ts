@@ -30,7 +30,7 @@ export const qrToRecibir = (scannedQr: string[], received: string): Material[] =
             projectId,
             received: received,
             installed: null,
-            description: null
+            tracking: null
         };
 
         // Push the material object to the array
