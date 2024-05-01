@@ -17,7 +17,7 @@ interface Props {
   setQrReader: ()=>void
 }
 
-export const QrReader = ({qrReader, setQrReader}:Props) => {
+const QrReader = ({qrReader, setQrReader}:Props) => {
   // QR States
   const scanner = useRef<QrScanner>();
   const videoEl = useRef<HTMLVideoElement>(null);
@@ -158,3 +158,5 @@ export const QrReader = ({qrReader, setQrReader}:Props) => {
     </div>
   );
 };
+
+export default QrReader

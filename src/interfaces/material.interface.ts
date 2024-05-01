@@ -14,6 +14,6 @@ export interface Material {
 
 
 export type MaterialType = 'varios' | 'modulo' | 'pista'
-export type MaterialStatus = 'fabrica' | 'recibido' | 'instalado'
+export type MaterialStatus = 'recibido' | 'instalado' | 'fabrica'
 
 

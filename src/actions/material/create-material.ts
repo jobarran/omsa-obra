@@ -1,8 +1,8 @@
 'use server';
 
 import { auth } from "@/auth.config";
-import { Material } from "@/interfaces";
 import prisma from "@/lib/prisma";
+import { Material } from "@prisma/client";
 
 export const createMaterials = async (materials: Material[], date: string) => {
     const session = await auth();

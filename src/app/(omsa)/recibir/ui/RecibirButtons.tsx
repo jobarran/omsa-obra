@@ -1,10 +1,11 @@
 'use client'
 
-import { ButtonCard, ButtonCardUploadRemito, ManualAddMaterial, ReturnMaterialModal, QrReader } from '@/components';
+import { ButtonCard, ButtonCardUploadRemito, ManualAddMaterial, ReturnMaterialModal } from '@/components';
 import { useState } from "react";
 import { FaQrcode } from 'react-icons/fa';
 import { FaPenToSquare, FaArrowRightArrowLeft } from 'react-icons/fa6';
 import { FaCamera } from "react-icons/fa";
+import QrReader from '@/components/qr/QrReader';
 
 
 export const RecibirBotones = () => {
