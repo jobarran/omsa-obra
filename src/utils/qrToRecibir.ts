@@ -29,6 +29,7 @@ export const qrToRecibir = (scannedQr: string[], received: string): Material[] =
             status: "recibido",
             projectId,
             received: received,
+            possition: null,
             installed: null,
             tracking: null
         };
