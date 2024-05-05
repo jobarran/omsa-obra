@@ -23,7 +23,7 @@ export const MontarMatPrev = ({ data }: Props) => {
             <p className="text-sm text-gray-600"><span className="text-base text-gray-900 font-semibold mr-2">Fecha</span>{date}</p>
             <p className="text-sm text-gray-600"><span className="text-base text-gray-900 font-semibold mr-2">Piso</span>{floor}</p>
             <p className="text-sm text-gray-600"><span className="text-base text-gray-900 font-semibold mr-2">Posición</span>{possition}</p>
-            <p className="text-base text-gray-900 font-semibold">Observations</p>
+            <p className="text-base text-gray-900 font-semibold">Observaciones</p>
             <p className="text-sm text-gray-600">{truncatedObservation}</p>
         </div>
     );
