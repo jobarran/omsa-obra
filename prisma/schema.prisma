@@ -59,6 +59,7 @@ model Material {
   status    MaterialStatus @default(recibido)
   received  String?
   installed String?
+  possition String?        @unique
   tracking  String?
 
   // Relations - Up

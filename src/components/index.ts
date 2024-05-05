@@ -8,6 +8,7 @@ export * from './ui/top-menu/Avatar'
 export * from './ui/top-menu/TopMenuIcon'
 
 export * from './qr/QrReader'
+export * from './qr/MontarQrReader'
 
 export * from './recibir/DatePicker'
 export * from './recibir/EmptyTableButton'
@@ -18,3 +19,8 @@ export * from './recibir/SavedSuccessMessage'
 export * from './recibir/ManualAddMaterial'
 export * from './recibir/ReturnMaterialModal'
 
+export * from './montar/MontarDatePicker'
+export * from './montar/MontarFloorAndPossition'
+export * from './montar/MontarAddButton'
+export * from './montar/MontarObservations'
+export * from './montar/MontarMatPrev'

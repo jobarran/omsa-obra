@@ -9,6 +9,7 @@ export interface Material {
     projectId: string
     received: string | null
     installed: string | null
+    possition?: string
     tracking: string | null
 }
 
