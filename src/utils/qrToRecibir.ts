@@ -31,6 +31,7 @@ export const qrToRecibir = (scannedQr: string[], received: string): Material[] =
             received: received,
             possition: null,
             installed: null,
+            observations: null,
             tracking: null
         };
 

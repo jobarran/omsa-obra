@@ -2,8 +2,8 @@
 
 import { useMaterialStore, useUiStore } from "@/store"
 import { useEffect, useState } from 'react';
-import { ButtonCard, ButtonCardUploadRemito, CodeRepeatedError, EmptyTableButton, ManualAddMaterial, MontarAddButton, MontarDatePicker, MontarFloorAndPossition, MontarMatPrev, MontarObservations, RecibirTableBody, ReturnMaterialModal, SaveButton } from "@/components";
-import { checkDuplicates, checkObra, getTodayDate } from "@/utils";
+import { ButtonCard, ButtonCardUploadRemito, CodeRepeatedError, EmptyTableButton, ManualAddMaterial, MontarAddButton, MontarDatePicker, MontarFloorAndPossition, MontarMatPrev, MontarObservations, MontarTableBody, RecibirTableBody, ReturnMaterialModal, SaveButton } from "@/components";
+import { checkDuplicates, checkObra, getTodayDate, qrScannerToObject } from "@/utils";
 import { createMaterials, getMaterialsByProject } from "@/actions";
 import { SavedSuccessMessage } from '../../../../components/recibir/SavedSuccessMessage';
 import MontarQrReader from "@/components/qr/MontarQrReader";
@@ -27,6 +27,7 @@ export const MontarTable = () => {
 
   const activeProject = useUiStore(state => state.activeProject)
   const storeMaterial = useMaterialStore(state => state.storeMaterial)
+  const setStoreMaterial = useMaterialStore(state => state.setStoreMaterial)
   const emptyStoreMaterial = useMaterialStore(state => state.emptyStoreMaterial)
   const isMaterialError = useMaterialStore(state => state.isMaterialError)
   const setIsMaterialError = useMaterialStore(state => state.setIsMaterialError)
@@ -43,8 +44,40 @@ export const MontarTable = () => {
     endDate: getTodayDate()
   });
 
-  const handleSaveMaterials = async () => {
+  const handleAddMaterialToStore = () => {
     
+    const possition = montarMaterial.floor+"-"+montarMaterial.possition
+
+    // Create data object from scanned QR
+    const data = qrScannerToObject(montarMaterial.material, possition, montarMaterial.observation);
+
+    // Check if data already exists in storeMaterial array
+    const isDataRepeated = storeMaterial?.some((material) => {
+      // Implement your comparison logic here
+      // For example, comparing material.code or other unique identifier
+      return material.code === data.code && material.name === data.name;
+    });
+
+    if (isDataRepeated) {
+      // If data already exists in storeMaterial array
+      setIsMaterialError("Este material ya figura en tu listado");
+      console.log('QR code already exists in storeMaterial');
+    } else {
+      // If data is not in storeMaterial array, add it
+      setStoreMaterial(data);
+      setMontarMaterial({
+        material: "",
+        date: getTodayDate(),
+        floor: "",
+        possition: "",
+        observation: ""
+      });
+      console.log('QR code added to storeMaterial');
+    }
+  }
+
+  const handleSaveMaterials = async () => {
+
   };
 
   const handleMontarMaterialChange = (data: any) => {
@@ -145,6 +178,7 @@ export const MontarTable = () => {
 
         <MontarAddButton
           isDisabled={montarMaterial.material && montarMaterial.date && montarMaterial.floor && montarMaterial.possition ? false : true}
+          handleAddMaterialToStore={handleAddMaterialToStore}
         />
 
         {
@@ -155,7 +189,7 @@ export const MontarTable = () => {
           isMaterialSavedSuccess && <SavedSuccessMessage />
         }
 
-        <RecibirTableBody duplicatedCodes={errorCodes} />
+        <MontarTableBody duplicatedCodes={errorCodes} />
 
         <div className="flex w-full mt-2">
           <SaveButton handleSaveMaterials={() => handleSaveMaterials()} />

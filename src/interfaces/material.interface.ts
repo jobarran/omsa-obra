@@ -11,6 +11,7 @@ export interface Material {
     installed: string | null
     possition: string | null
     tracking: string | null
+    observations: string | null
 }
 
 
