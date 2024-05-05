@@ -18,6 +18,7 @@ export const qrScannerToObjectArray = (scannedQrs: string[]): Material[] => {
             received: null,
             installed: null,
             possition: null,
+            observations: null,
             tracking: null
         };
 
